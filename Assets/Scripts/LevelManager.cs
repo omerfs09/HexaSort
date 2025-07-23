@@ -86,26 +86,9 @@ public class LevelManager : MonoBehaviour
                 slotList.Add(slot);
                 
                 rowStartPos = NextRightHexagon(rowStartPos);
-                if(j % 2  == 0)
+                if(i % 2  == 1)
                 {
                     Vector2Int point = slotPoint + new Vector2Int(-1, 0);
-                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
-                    point = slotPoint + new Vector2Int(0, 1);
-                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
-                    point = slotPoint + new Vector2Int(1, 0);
-                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
-                    point = slotPoint + new Vector2Int(1, -1);
-                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
-                    point = slotPoint + new Vector2Int(0, -1);
-                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
-                    point = slotPoint + new Vector2Int(-1, -1);
-                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
-
-                    
-                }
-                else
-                {
-                    Vector2Int point = slotPoint + new Vector2Int(-1, 1);
                     if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
                     point = slotPoint + new Vector2Int(0, 1);
                     if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
@@ -113,9 +96,26 @@ public class LevelManager : MonoBehaviour
                     if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
                     point = slotPoint + new Vector2Int(1, 0);
                     if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(1, -1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
                     point = slotPoint + new Vector2Int(0, -1);
                     if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
-                    point = slotPoint + new Vector2Int(-1, 0);
+
+                    
+                }
+                else
+                {
+                    Vector2Int point = slotPoint + new Vector2Int(-1, 0);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(-1, 1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(0, 1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(1, 0);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(0, -1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(-1, -1);
                     if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
 
                 }
