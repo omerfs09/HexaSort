@@ -33,13 +33,12 @@ public class HexagonSlot : MonoBehaviour,IPoolable
         if (stack.Count > 0)
             topColor = stack.Peek().color;
         else topColor = Colors.Null;
-         //List<HexagonSlot> visited = new();
-        //visited.Add(this);
+         
         if(topColor != Colors.Null)
-        CheckNeighbors(topColor,null);
+        CheckNeighbors(topColor,()=> Debug.Log("Done"));
         
     }
-    public void CheckNeighbors(Colors color,HexagonSlot other)
+    public void CheckNeighbors(Colors color,Action onComplete)
     {
         isAvailable = false;
         
@@ -57,31 +56,27 @@ public class HexagonSlot : MonoBehaviour,IPoolable
         {
             if (available.Count < 2)
             {
-                
-                //GameController.Instance.AddToQueue();
-                new PourCommand(available[0], this,color).RunCommand();
-
-
+                available[0].PourToSlot(this, color, () => available[0].CheckNeighbors(available[0].GetTopColor(),() => onComplete?.Invoke()));
             }
             else
             {
-                //GameController.Instance.AddToQueue();
-                new PourCommand(available[0], this,color).RunCommand();
-                
+                available[0].PourToSlot(this, color, () => available[1].PourToSlot(this,color,()=> available[1].CheckNeighbors(available[1].GetTopColor(), () => onComplete?.Invoke())));
+                   
             }
-        }
-        if(other!= null)
-        {
             
-            GameController.Instance.AddToQueue(new CheckNeighborsCommand(this, GetTopColor(), null));
         }
+        else
+        {
+            onComplete?.Invoke();
+        }
+        
         
         
     }
     
-    public void PourToSlot(HexagonSlot other,Colors color)
+    public void PourToSlot(HexagonSlot other,Colors color,Action onComplete)
     {
-        isCheckAble = false;
+        
         isAvailable = false;
         other.isAvailable = false;
         int i = 0;
@@ -91,23 +86,20 @@ public class HexagonSlot : MonoBehaviour,IPoolable
             
            Hexagon hexagon  = stack.Pop();
            hexagon.transform.DOLocalJump(other.transform.position +(other.stackHeight+ i*GameConstants.STACK_SPACE) * Vector3.up, 1f,1,0.15f).SetDelay(i*0.15f).OnComplete(() => other.PushObject(hexagon)); ;
-           i++;
+            stackHeight -= GameConstants.STACK_SPACE;
+            i++;
         }
-        wait = stack.Count * 0.15f;
+        wait = stack.Count * 0.15f+1.5f;
         StartCoroutine(cor());
         IEnumerator cor()
         {
             yield return new WaitForSeconds(wait);
             isAvailable = true;
             other.isAvailable = true;
-            isCheckAble = true;
-            GameController.Instance.AddToQueue(new CheckNeighborsCommand(this, GetTopColor(),other));
-            
-            
-            
-            
+            //stackHeight = GameConstants.STACK_SPACE;
+            onComplete?.Invoke();
         }
-        stackHeight = GameConstants.STACK_SPACE;
+       
     }
     public void CheckMatch()
     {
@@ -131,7 +123,7 @@ public class HexagonSlot : MonoBehaviour,IPoolable
     }
     public bool TopThreeAreEqual(Stack<Hexagon> stack)
     {
-        int num = 3;
+        int num = 10;
         if (stack.Count < num) return false;
 
         Hexagon[] topItems = new Hexagon[num];

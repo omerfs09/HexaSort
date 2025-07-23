@@ -25,7 +25,7 @@ public class Desk : MonoBehaviour
         if (IsDeskEmpty())
         {
             
-            Debug.Log("Filling");
+            //Debug.Log("Filling");
             DraggableStack stack = PoolManager.Instance.GetItem(ItemType.Draggable) as DraggableStack;
             List<Colors> colors = new();
             int r =  (int)Random.RandomRange(0, 2);

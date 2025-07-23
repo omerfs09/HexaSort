@@ -32,30 +32,30 @@ public class PourCommand : Command
     }
     public void RunCommand()
     {
-        from.PourToSlot(to,color);
+        from.PourToSlot(to,color,null);
         Debuger();
     }
     public void Debuger()
     {
-        Debug.Log(from.name + ">"+to.name);
+        //Debug.Log(from.name + ">"+to.name);
 
     }
 }
 public class CheckNeighborsCommand : Command
 {
-    HexagonSlot checker,other;
+    HexagonSlot checker;
     Colors color;
 
-    public CheckNeighborsCommand(HexagonSlot checker, Colors color,HexagonSlot other)
+    public CheckNeighborsCommand(HexagonSlot checker, Colors color)
     {
         this.checker = checker;
         this.color = color;
-        this.other = other;
+        
     }
 
     public void RunCommand()
     {
-        checker.CheckNeighbors(color,other);
+        checker.CheckNeighbors(color,null);
         Debug.Log("Checking",checker);
     }
     public bool IsRunnable()
