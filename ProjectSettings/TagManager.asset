@@ -8,12 +8,12 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Drag
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Slot
+  - HexaSlot
+  - DeskSlot
   - 
   - 
   - 

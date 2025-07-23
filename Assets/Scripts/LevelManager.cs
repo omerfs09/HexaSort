@@ -5,14 +5,14 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public LevelManager Instance;
-    public float HEXAGON_R = 0.32f;
+    float HEXAGON_R = GameConstants.HEXAGON_R;
     public List< LevelData> levelDatas;
-    
-    
+    public List<HexagonSlot> slots;
+    public Desk desk;
     void Awake()
     {
         Instance = this;
-        LoadLevel(0);
+        slots  = LoadLevel(levelDatas[0]);
     }
 
     // Update is called once per frame
@@ -27,21 +27,144 @@ public class LevelManager : MonoBehaviour
         else Debug.Log("EndOfLevels");
                 
     }
-    public void LoadLevel(LevelData levelData)
+    
+    private Dictionary<Vector2Int, HexagonSlot> createdSlots = new();
+    public void LoadLevelRecursive(LevelData levelData)
     {
+        Vector3 startPos = levelData.startPos;
+        Vector2Int startIndex = new Vector2Int(0, 0);
+        CreateSlot(null,startPos, startIndex);
+
+        HexagonSlot CreateSlot(HexagonSlot pre,Vector3 worldPos, Vector2Int index)
+        {
+            // Sýnýr kontrolü
+            if (index.x < 0 || index.x >= levelData.rows || index.y < 0 || index.y >= levelData.collums)
+                return null;
+
+            // Daha önce oluþturulmuþsa tekrar oluþturma
+            if (createdSlots.ContainsKey(index))
+                return null;
+
+            // Slot oluþtur
+            HexagonSlot slot = (HexagonSlot)PoolManager.Instance.GetItem(ItemType.HexagonSlot);
+            slot.transform.position = worldPos;
+            createdSlots.Add(index, slot);
+
+            // Komþu slotlara ilerle (3 yönlü, istersen 6'ya çýkar)
+            CreateSlot(slot,worldPos + GetOffset(-1, 1), index + new Vector2Int(-1, 1));
+            CreateSlot(slot,worldPos + GetOffset(1, 1), index + new Vector2Int(1, 1));
+            CreateSlot(slot,worldPos + GetOffset(1, 0), index + new Vector2Int(1, 0));
+            return slot;
+        }
+
+        // Hexagonal grid için pozisyon offseti (pointy-top)
+        Vector3 GetOffset(int dx, int dy)
+        {
+            float x = HEXAGON_R * 1.5f * dx;
+            float z = HEXAGON_R * Mathf.Sqrt(3) * (dy - dx * 0.5f);
+            return new Vector3(x, 0, z);
+        }
+    }
+    public List<HexagonSlot> LoadLevel(LevelData levelData)
+    {
+        List<HexagonSlot> slotList = new();
+        bool[,] adjacency = new bool[levelData.rows * levelData.collums,levelData.rows * levelData.collums];
         Vector3 startPos = levelData.startPos;
         for (int j = 0; j < levelData.rows; j++)
         {
+            Camera.main.orthographicSize = levelData.cameraSize;
             Vector3 rowStartPos = startPos;
+            
             for (int i = 0; i < levelData.collums; i++)
             {
+                int slotIndex = levelData.collums * j + i; ;
+                Vector2Int slotPoint = new Vector2Int(j, i);
+                
                 HexagonSlot slot = (HexagonSlot)PoolManager.Instance.GetItem(ItemType.HexagonSlot);
+                
                 slot.transform.position = (rowStartPos);
+                slotList.Add(slot);
+                
                 rowStartPos = NextRightHexagon(rowStartPos);
+                if(j % 2  == 0)
+                {
+                    Vector2Int point = slotPoint + new Vector2Int(-1, 0);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(0, 1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(1, 0);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(1, -1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(0, -1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(-1, -1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+
+                    
+                }
+                else
+                {
+                    Vector2Int point = slotPoint + new Vector2Int(-1, 1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(0, 1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(1, 1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(1, 0);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(0, -1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(-1, 0);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+
+                }
+
+
+
+
             }
             startPos = NextDownHexagon(startPos);
         }
-
+        for (int x = 0; x < adjacency.GetLength(0); x++) // satýrlar
+        {
+            for (int y = 0; y < adjacency.GetLength(1); y++) // sütunlar
+            {
+                if(adjacency[x,y])
+                slotList[x].connectedSlots.Add(slotList[y]);
+                
+            }
+        }
+        foreach(HexagonSlot slot in slotList)
+        {
+            
+            int numOfHexs = (int)Random.Range(0, 4);
+            //for (int i = 0; i < numOfHexs; i++)
+            //{
+            //    Hexagon hexa = (Hexagon)PoolManager.Instance.GetItem(ItemType.Hexagon);
+            //    hexa.SetColor(Colors.Blue);
+            //    slot.PushObject(hexa);
+            //}
+        }
+        desk.transform.position = levelData.deskPos;
+        
+        DraggableStack draggable = (DraggableStack)PoolManager.Instance.GetItem(ItemType.Draggable);
+        draggable.PushList(levelData.colors);
+        draggable.Drag(desk.transform.position);
+        desk.middle.FillSlot(draggable);
+        return slotList;
+        int vectorToIndex(Vector2Int vector2Int)
+        {
+            return vector2Int.x * levelData.collums + vector2Int.y;
+        }
+        bool isInBounds(Vector2Int point)
+        {
+            if (point.x >= 0 && point.x < levelData.rows && point.y >= 0 && point.y < levelData.collums)
+            {
+                return true;
+            }
+            else return false;
+        }
     }
     bool up = false;
     public Vector3 NextRightHexagon(Vector3 pos)
@@ -56,8 +179,8 @@ public class LevelManager : MonoBehaviour
     public Vector3 NextDownHexagon(Vector3 pos)
     {
         Vector3 nextPos;
-        if (up2) nextPos = pos + new Vector3(0, 0, 2) * HEXAGON_R;
-        else nextPos = pos + new Vector3(0, 0, 2) * HEXAGON_R;
+        if (up2) nextPos = pos + new Vector3(0, 0, -1.73f) * HEXAGON_R;
+        else nextPos = pos + new Vector3(0, 0, -1.73f) * HEXAGON_R;
         up2 = !up2;
         return nextPos;
     }

@@ -6,7 +6,8 @@ using UnityEngine;
 public enum ItemType
 {
     Hexagon,
-    HexagonSlot
+    HexagonSlot,
+    Draggable,
 }
 
 // Interface for poolable objects

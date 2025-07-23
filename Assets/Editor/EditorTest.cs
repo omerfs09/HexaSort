@@ -14,8 +14,9 @@ public class EditorTest : Editor
         LevelData levelData = (LevelData)target;
 
         // Buton
-        if (GUILayout.Button("Blok Adýný Yazdýr"))
+        if (GUILayout.Button("Ortala"))
         {
+            levelData.startPos = (-(float)(levelData.collums-1) / 2) * new Vector3(1.5f, 0, -0.866f)*GameConstants.HEXAGON_R + (-(float)(levelData.rows-1) / 2) * new Vector3(0, 0, -1.73f) * GameConstants.HEXAGON_R; 
             Debug.Log(levelData.rows);
         }
     }

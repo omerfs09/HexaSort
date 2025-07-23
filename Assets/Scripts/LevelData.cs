@@ -9,5 +9,7 @@ public class LevelData: ScriptableObject
     public int rows;
     public int collums;
     public Vector3 startPos;
-
+    public float cameraSize;
+    public List<Colors> colors;
+    public Vector3 deskPos;
 }
