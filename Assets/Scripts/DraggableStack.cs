@@ -28,11 +28,12 @@ public class DraggableStack : MonoBehaviour,IPoolable
     {
         foreach (Hexagon item in hexaList)
         {
-            item.transform.SetParent(null);
+            item.transform.SetParent(PoolManager.Instance.transform);
             slot.PushObject(item);
         }
+        hexaList.Clear();
         PoolManager.Instance.ReturnItem(ItemType.Draggable, this);
-        slot.OnPut();
+        slot.OnDrop();
     }
     public void Drag(Vector3 pos)
     {
@@ -41,11 +42,18 @@ public class DraggableStack : MonoBehaviour,IPoolable
 
     public void OnSpawn()
     {
-        
+    
     }
 
     public void OnDespawn()
     {
+        foreach (Hexagon item in hexaList)
+        {
+            PoolManager.Instance.ReturnItem(ItemType.Hexagon, item);
+            item.transform.SetParent(PoolManager.Instance.transform);
+        }
+        hexaList.Clear();
+        stackHeight = GameConstants.STACK_SPACE;
 
     }
 }

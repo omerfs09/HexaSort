@@ -68,8 +68,8 @@ public class GameController : MonoBehaviour
             {
 
                 
-                new AddToSlotCommand(slot, currentDraggable).RunCommand();
-                //currentDraggable.AddToSlot(slot);
+                
+                currentDraggable.AddToSlot(slot);
                 currentDeskSlot.stack = null;
                 currentDeskSlot.GetDesk().OnAStackRemoved();
             }

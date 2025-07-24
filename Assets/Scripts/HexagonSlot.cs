@@ -28,7 +28,7 @@ public class HexagonSlot : MonoBehaviour,IPoolable
     {
         
     }
-    public void OnPut()
+    public void OnDrop()
     {
         Colors topColor;
         if (stack.Count > 0)
@@ -47,7 +47,7 @@ public class HexagonSlot : MonoBehaviour,IPoolable
         foreach (HexagonSlot slot in connectedSlots)
         {
 
-            if (slot.GetTopColor() == color)
+            if (slot.GetTopColor() == color && slot.GetTopColor() != Colors.Null)
             {
 
                 available.Add(slot);
@@ -55,19 +55,8 @@ public class HexagonSlot : MonoBehaviour,IPoolable
         }
         if (available.Count > 0)
         {
-            if(available.Count < 2)
-            {
-
-                available[0].isAvailable = false;
-                available[0].PourToSlot(this, color, () => available[0].CheckNeighbors(available[0].GetTopColor(), () => end()));
-            }
-            else
-            {
-                available[0].isAvailable = false;
-                available[1].isAvailable = false;
-                available[0].PourToSlot(this, color,() => available[1].PourToSlot(this,color,() => available[0].CheckNeighbors(color,() => available[1].CheckNeighbors(available[1].GetTopColor(),() => end()) ) ));
-            }
-           
+            available[0].isAvailable = false;
+            available[0].PourToSlot(this, color, () => CheckNeighbors(GetTopColor(), () => available[0].CheckNeighbors(available[0].GetTopColor(),()=> end())));   
         }
         else
         {
@@ -94,7 +83,7 @@ public class HexagonSlot : MonoBehaviour,IPoolable
         while (stack.Count > 0 && color == stack.Peek().color)
         {
             Hexagon hexagon = stack.Pop();
-            hexagon.transform.DOLocalJump(other.transform.position + (other.stackHeight + i * GameConstants.STACK_SPACE) * Vector3.up, 1f, 1, 0.15f).SetDelay(i * 0.15f).OnComplete(() => other.PushObject(hexagon)); ;
+            hexagon.transform.DOJump(other.transform.position + (other.stackHeight + i * GameConstants.STACK_SPACE) * Vector3.up, 0.1f, 1, 0.15f).SetDelay(i * 0.15f).OnComplete(() => other.PushObject(hexagon,false)); ;
             stackHeight -= GameConstants.STACK_SPACE;
             i++;
         }
@@ -253,7 +242,7 @@ public class HexagonSlot : MonoBehaviour,IPoolable
     {
         stack.Push(hexa);
         if(move)
-        hexa.MoveTo(transform.position+ Vector3.up*stackHeight);
+        hexa.MoveTo(transform.position+ Vector3.up*stackHeight,false);
         stackHeight += STACK_SPACE;
     }
     public void PopObject()
@@ -273,6 +262,7 @@ public class HexagonSlot : MonoBehaviour,IPoolable
     {
         Debug.Log("Pop Is Done!");
     }
+    
     public Colors GetTopColor()
     {
         if (stack.Count > 0) return stack.Peek().color;

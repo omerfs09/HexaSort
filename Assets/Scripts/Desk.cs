@@ -26,24 +26,32 @@ public class Desk : MonoBehaviour
         {
             
             //Debug.Log("Filling");
-            DraggableStack stack = PoolManager.Instance.GetItem(ItemType.Draggable) as DraggableStack;
+            DraggableStack stackl = PoolManager.Instance.GetItem(ItemType.Draggable) as DraggableStack;
+            DraggableStack stackm = PoolManager.Instance.GetItem(ItemType.Draggable) as DraggableStack;
+            DraggableStack stackr = PoolManager.Instance.GetItem(ItemType.Draggable) as DraggableStack;
             List<Colors> colors = new();
-            int r =  (int)Random.RandomRange(0, 2);
-            if(r == 0)
-            {
-                colors.Add(Colors.Red);
-                colors.Add(Colors.Red);
-                colors.Add(Colors.Red);
-            }
-            else
-            {
-                colors.Add(Colors.Blue);
-                colors.Add(Colors.Blue);
-                colors.Add(Colors.Blue);
-            }
-            stack.PushList(colors);
-            stack.Drag(left.transform.position);
-            left.FillSlot(stack);
+            colors.Add(Colors.Red);
+            colors.Add(Colors.Red);
+            colors.Add(Colors.Red);
+           
+            stackl.PushList(colors);
+            stackl.Drag(left.transform.position);
+            colors.Clear();
+            colors.Add(Colors.Blue);
+            colors.Add(Colors.Blue);
+            colors.Add(Colors.Blue);
+            stackm.PushList(colors);
+            stackm.Drag(middle.transform.position);
+            colors.Clear();
+            colors.Add(Colors.Blue);
+            colors.Add(Colors.Blue);
+            colors.Add(Colors.Red);
+            stackr.PushList(colors);
+            stackr.Drag(right.transform.position);
+            colors.Clear();
+            left.FillSlot(stackl);
+            middle.FillSlot(stackm);
+            right.FillSlot(stackr);
         }
     }
 }
