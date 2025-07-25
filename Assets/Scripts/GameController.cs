@@ -9,7 +9,6 @@ public class GameController : MonoBehaviour
     public LayerMask slotLayer;
     Camera mainCamera;
     Vector3 initialPos;
-    Queue<CheckNeighborsCommand> commands = new();
     bool putEnabled = true;
 
     void Awake()
@@ -83,13 +82,7 @@ public class GameController : MonoBehaviour
         {
             currentDraggable = null;
         }
-        if (commands.Count > 0 && commands.Peek().IsRunnable())
-        {
-            commands.Dequeue().RunCommand();
-        }
+        
     }
-    public void AddToQueue(CheckNeighborsCommand command)
-    {
-        commands.Enqueue(command);
-    }
+    
 }

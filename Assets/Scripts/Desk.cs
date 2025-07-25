@@ -44,6 +44,11 @@ public class Desk : MonoBehaviour
             colors.Add(Colors.Blue);
             colors.Add(Colors.Blue);
             colors.Add(Colors.Blue);
+            colors.Add(Colors.Red);
+            colors.Add(Colors.Red);
+            colors.Add(Colors.Red);
+            colors.Add(Colors.Red);
+            colors.Add(Colors.Red);
             stackm.PushList(colors);
             stackm.Drag(middle.transform.position);
             colors.Clear();
