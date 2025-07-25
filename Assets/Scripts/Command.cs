@@ -22,3 +22,22 @@ public class ClearSlotCommand : Command
         runner.ClearSlot(runner.GetTopColor(), action);
     }
 }
+public class AddToSlotCommand : Command
+{
+    DraggableStack runner;
+    HexagonSlot slot;
+    DeskSlot deskSlot;
+    public AddToSlotCommand(DraggableStack runner, HexagonSlot slot,DeskSlot deskSlot)
+    {
+        this.runner = runner;
+        this.slot = slot;
+        this.deskSlot = deskSlot;
+    }
+
+    public void RunCommand()
+    {
+        runner.AddToSlot(slot);
+        deskSlot.stack = null;
+        deskSlot.GetDesk().OnAStackRemoved();
+    }
+}

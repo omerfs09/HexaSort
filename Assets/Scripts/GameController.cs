@@ -9,7 +9,6 @@ public class GameController : MonoBehaviour
     public LayerMask slotLayer;
     Camera mainCamera;
     Vector3 initialPos;
-    bool putEnabled = true;
 
     void Awake()
     {
@@ -65,19 +64,21 @@ public class GameController : MonoBehaviour
             }
             else
             {
-
+                CommandController.Instance.EnqueAddToSlotCommand(new AddToSlotCommand(currentDraggable, slot, currentDeskSlot));
+                currentDraggable.transform.position = slot.transform.position;
                 
                 
-                currentDraggable.AddToSlot(slot);
-                currentDeskSlot.stack = null;
-                currentDeskSlot.GetDesk().OnAStackRemoved();
             }
             ReleaseObject();
 
         }
         if(currentDraggable != null)
         currentDraggable.Drag(mainCamera.ScreenToWorldPoint(Input.mousePosition)+ mainCamera.transform.forward*3);
-
+        if (CommandController.Instance.IsDropable())
+        {
+            CommandController.Instance.RunAddToSlotQue();
+        }
+        
         void ReleaseObject()
         {
             currentDraggable = null;
