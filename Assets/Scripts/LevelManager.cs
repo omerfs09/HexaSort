@@ -9,7 +9,8 @@ public class LevelManager : MonoBehaviour
     public List< LevelData> levelDatas;
     public List<HexagonSlot> slots;
     public Desk desk;
-    void Awake()
+    public GameObject hexagonSlotParent;
+    void Start()
     {
         Instance = this;
         slots  = LoadLevel(levelDatas[0]);
@@ -81,8 +82,9 @@ public class LevelManager : MonoBehaviour
                 Vector2Int slotPoint = new Vector2Int(j, i);
                 
                 HexagonSlot slot = (HexagonSlot)PoolManager.Instance.GetItem(ItemType.HexagonSlot);
-                
+                slot.transform.parent = hexagonSlotParent.transform;
                 slot.transform.position = (rowStartPos);
+                GameStats.Instance.AddSlot(slot);
                 slotList.Add(slot);
                 
                 rowStartPos = NextRightHexagon(rowStartPos);

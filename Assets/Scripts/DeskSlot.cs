@@ -11,6 +11,14 @@ public class DeskSlot : MonoBehaviour
     {
         return stack == null;
     }
+    public void ClearSlot()
+    {
+        if (stack == null) return;
+        
+        PoolManager.Instance.ReturnItem(ItemType.Draggable, stack);
+        stack = null;
+        
+    }
     public void FillSlot(DraggableStack stack)
     {
         this.stack = stack;

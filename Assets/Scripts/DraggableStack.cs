@@ -11,17 +11,20 @@ public class DraggableStack : MonoBehaviour,IPoolable
     {
         
     }
-    
+    public void PushHexagon(Hexagon hexagon)
+    {
+        hexagon.MoveTo(transform.position + Vector3.up * stackHeight);
+        hexaList.Add(hexagon);
+        hexagon.transform.SetParent(this.transform);
+        stackHeight += STACK_SPACE;
+    }
     public void PushList(List<Colors> hexagonColors)
     {
         foreach (Colors color in hexagonColors)
         {
             Hexagon hexagon = (Hexagon)PoolManager.Instance.GetItem(ItemType.Hexagon);
             hexagon.SetColor(color);
-            hexagon.MoveTo(transform.position + Vector3.up * stackHeight);
-            hexaList.Add(hexagon);
-            hexagon.transform.SetParent(this.transform);
-            stackHeight += STACK_SPACE;
+            PushHexagon(hexagon);
         }
     }
     public void AddToSlot(HexagonSlot slot)
@@ -30,6 +33,7 @@ public class DraggableStack : MonoBehaviour,IPoolable
         {
             item.transform.SetParent(PoolManager.Instance.transform);
             slot.PushObject(item);
+            GameStats.Instance.AddColor(item.color, 1);
         }
         hexaList.Clear();
         PoolManager.Instance.ReturnItem(ItemType.Draggable, this);

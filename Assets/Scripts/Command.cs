@@ -37,7 +37,10 @@ public class AddToSlotCommand : Command
     public void RunCommand()
     {
         runner.AddToSlot(slot);
-        deskSlot.stack = null;
-        deskSlot.GetDesk().OnAStackRemoved();
+        if (deskSlot != null)
+        {
+            deskSlot.stack = null;
+            deskSlot.GetDesk().OnAStackRemoved();
+        }
     }
 }
