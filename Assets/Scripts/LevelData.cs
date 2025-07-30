@@ -12,4 +12,5 @@ public class LevelData: ScriptableObject
     public float cameraSize;
     public List<Colors> colors;
     public Vector3 deskPos;
+    public DeskOptions deskOptions;
 }

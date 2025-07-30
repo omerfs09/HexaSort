@@ -12,7 +12,6 @@ public class HexagonSlot : MonoBehaviour, IPoolable
     float stackHeight = GameConstants.STACK_SPACE;
     public List<HexagonSlot> connectedSlots;
     public bool isAvailable = true;
-    public bool isCheckAble = true;
     public int colorSeries = 0;
     public static bool addToSlotEnabled = true;
     void Start()
@@ -23,7 +22,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     public void GetStackPosition()
@@ -112,6 +111,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
 
     public void PourToSlot(HexagonSlot other, Colors color, Action onComplete)
     {
+        addToSlotEnabled = false;
         isAvailable = false;
         other.isAvailable = false;
         int i = 0;
@@ -135,6 +135,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             isAvailable = true;
             other.isAvailable = true;
             //stackHeight = GameConstants.STACK_SPACE;
+            addToSlotEnabled = true;
             onComplete?.Invoke();
         }
 
@@ -146,7 +147,6 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         if (TopThreeAreEqual(stack))
         {
             Debug.Log("Check", this);
-            addToSlotEnabled = false;
             clearedSlots++;
             CommandController.Instance.clearQue.Enqueue(new ClearSlotCommand(this, action));
         }
@@ -197,7 +197,6 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             if (clearedSlots <= 0)
             {
                 clearedSlots = 0;
-                OnAllAnimationsEnded();
             }
         }
     }
@@ -313,6 +312,11 @@ public class HexagonSlot : MonoBehaviour, IPoolable
 
     public void OnDespawn()
     {
-
+        stack.Clear();
+        connectedSlots.Clear();
+        stackHeight = STACK_SPACE;
+        isAvailable = true;
+        colorSeries = 0;
+        addToSlotEnabled = true;
     }
 }

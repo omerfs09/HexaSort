@@ -21,6 +21,19 @@ public class LevelManager : MonoBehaviour
     {
         
     }
+    public void ClearLevel()
+    {
+        foreach (HexagonSlot hexSlot in slots)
+        {
+            foreach(Hexagon hex in hexSlot.stack)
+            {
+                PoolManager.Instance.ReturnItem(ItemType.Hexagon,hex);
+            }
+            PoolManager.Instance.ReturnItem(ItemType.HexagonSlot,hexSlot);
+        }
+        desk.ClearDesk();
+        desk.deskOptions = null;
+    }
     public void LoadLevel(int i)
     {
         if (i < levelDatas.Count || i < 0)
@@ -68,6 +81,7 @@ public class LevelManager : MonoBehaviour
     }
     public List<HexagonSlot> LoadLevel(LevelData levelData)
     {
+        desk.deskOptions = levelData.deskOptions;
         List<HexagonSlot> slotList = new();
         bool[,] adjacency = new bool[levelData.rows * levelData.collums,levelData.rows * levelData.collums];
         Vector3 startPos = levelData.startPos;

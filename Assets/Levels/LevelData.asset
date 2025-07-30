@@ -18,3 +18,5 @@ MonoBehaviour:
   cameraSize: 5
   colors: 000000000100000001000000
   deskPos: {x: 0, y: 0, z: -2.75}
+  deskOptions:
+    colors: 0000000001000000

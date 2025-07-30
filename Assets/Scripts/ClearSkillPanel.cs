@@ -7,7 +7,7 @@ public class ClearSkillPanel : UIPanelTemplate
 {
     
     public Button cancelButton;
-     Animator animator;
+    Animator animator;
     public override void Awake()
     {
         base.Awake();
@@ -28,7 +28,7 @@ public class ClearSkillPanel : UIPanelTemplate
 
     public override void ShowPanel()
     {
-        gameObject.SetActive(true);
+        holder.SetActive(true);
         animator.SetTrigger("Open");
                 
     }
@@ -39,6 +39,6 @@ public class ClearSkillPanel : UIPanelTemplate
     }
     public void Close()
     {
-        gameObject.SetActive(false);
+        holder.SetActive(false);
     }
 }

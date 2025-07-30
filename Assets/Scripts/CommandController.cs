@@ -41,7 +41,6 @@ public class CommandController : MonoBehaviour
     }
     public void EnqueueClearCommand(ClearSlotCommand clearSlotCommand)
     {
-        HexagonSlot.addToSlotEnabled = false;
         clearQue.Enqueue(clearSlotCommand);
     }
     public void RunClearQueue()

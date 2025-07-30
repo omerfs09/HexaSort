@@ -32,11 +32,11 @@ public class SkillPanel : UIPanelTemplate
 
     public override void ShowPanel()
     {
-        gameObject.SetActive(true);
+        holder.SetActive(true);
     }
 
     public override void HidePanel()
     {
-        gameObject.SetActive(false);
+        holder.SetActive(false);
     }
 }

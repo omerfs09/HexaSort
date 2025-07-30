@@ -24,7 +24,7 @@ public class MoveSkillPanel : UIPanelTemplate
 
     public override void ShowPanel()
     {
-        gameObject.SetActive(true);
+        holder.SetActive(true);
         animator.SetTrigger("Open");
     }
 
