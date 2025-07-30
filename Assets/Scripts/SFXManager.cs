@@ -37,26 +37,26 @@ public class SFXManager : MonoBehaviour
         //PlayBGSound();
     }
 
-    public void PlayTickTockSound()
-    {
-        ticktockSound.Play();
-    }
+    //public void PlayTickTockSound()
+    //{
+    //    ticktockSound.Play();
+    //}
 
-    public void StopTickTockSound()
-    {
-        ticktockSound.Stop();
-    }
+    //public void StopTickTockSound()
+    //{
+    //    ticktockSound.Stop();
+    //}
 
-    public void PlayBGSound()
-    {
+    //public void PlayBGSound()
+    //{
 
-        if (!bgSound.gameObject.activeInHierarchy) bgSound.gameObject.SetActive(true);
-    }
+    //    if (!bgSound.gameObject.activeInHierarchy) bgSound.gameObject.SetActive(true);
+    //}
 
-    public void StopBGSound()
-    {
-        bgSound.gameObject.SetActive(false);
-    }
+    //public void StopBGSound()
+    //{
+    //    bgSound.gameObject.SetActive(false);
+    //}
 
     public void PlayClipOneShot(AudioEnums soundName, float volume = 1)
     {
@@ -104,5 +104,5 @@ public class SFXManager : MonoBehaviour
 }
 public enum AudioEnums
 {
-    Standart,
+    AddToSlot,
 }

@@ -6,14 +6,9 @@ public abstract class UIPanelTemplate : MonoBehaviour
 {
     public bool IsActiveOnStart = false;
     public PanelType panelType;
-    public void ShowPanel()
-    {
-        gameObject.SetActive(true);
-    }
-    public void HidePanel()
-    {
-        gameObject.SetActive(false);
-    }
+    public abstract void ShowPanel();
+    public abstract void HidePanel();
+    
     
     public virtual void Awake()
     {

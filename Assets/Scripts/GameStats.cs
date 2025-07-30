@@ -8,6 +8,7 @@ public class GameStats : MonoBehaviour
     public static GameStats Instance;
     Dictionary<Colors, int> numberOfColorsDict = new();
     List<HexagonSlot> slots = new();
+    Dictionary<Colors, int> topColors = new();
     void Awake()
     {
         Instance = this;
@@ -16,6 +17,50 @@ public class GameStats : MonoBehaviour
             numberOfColorsDict.Add(item,0);
         
         }
+    }
+    public List<Colors> ExistingColorsIterator()
+    {
+        List<Colors> temp = new();
+        foreach (Colors item in Enum.GetValues(typeof(Colors)))
+        {
+
+            int count = GameStats.Instance.GetColorCount(item);
+            if (count > 0)
+            {
+                temp.Add(item);
+            }
+        }
+        return temp;
+    }
+    public List<Colors> NonExistingColorsIterator()
+    {
+        List<Colors> temp = new();
+        foreach (Colors item in Enum.GetValues(typeof(Colors)))
+        {
+
+            int count = GameStats.Instance.GetColorCount(item);
+            if (count <= 0 && item != Colors.Null)
+            {
+                temp.Add(item);
+            }
+        }
+        return temp;
+    }
+    public Dictionary<Colors,int> ColorSeriesIterator()
+    {
+        foreach (HexagonSlot slot in  slots)
+        {
+            Colors topColor = slot.GetTopColor();
+            if (topColors.ContainsKey(topColor))
+            {
+                topColors[topColor] += slot.GetColorSeries();
+            }
+            else
+            {
+                topColors.Add(topColor, slot.GetColorSeries());
+            }
+        }
+        return topColors;
     }
     public void printNumbers()
     {
@@ -69,7 +114,7 @@ public class GameStats : MonoBehaviour
 }
 public class SlotsStatus
 {
-    int emptySlotCount,totalSlotCount;
+    public int emptySlotCount,totalSlotCount;
     public SlotsStatus(int empty,int total)
     {
         emptySlotCount = empty;

@@ -15,7 +15,11 @@ public class CommandController : MonoBehaviour
     
     void Update()
     {
-        
+        if (IsDropable())
+        {
+            RunAddToSlotQue();
+            
+        }
     }
     public  bool IsDropable()
     {
@@ -29,7 +33,10 @@ public class CommandController : MonoBehaviour
     public void RunAddToSlotQue()
     {
         if(addToSlotQue.Count > 0)
-        addToSlotQue.Dequeue().RunCommand();
+        {
+
+            addToSlotQue.Dequeue().RunCommand(); Debug.Log("QueRuned");
+        }
         
     }
     public void EnqueueClearCommand(ClearSlotCommand clearSlotCommand)

@@ -29,4 +29,14 @@ public class SkillPanel : UIPanelTemplate
         Desk.Instance.RefreshDesk();
         UIManager.ShowPanel(PanelType.RefreshDeskPanel);
     }
+
+    public override void ShowPanel()
+    {
+        gameObject.SetActive(true);
+    }
+
+    public override void HidePanel()
+    {
+        gameObject.SetActive(false);
+    }
 }

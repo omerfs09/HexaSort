@@ -151,3 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connectedSlots: []
+  isAvailable: 1
+  isCheckAble: 1
+  colorSeries: 0
+  model: {fileID: 4412162092340028936}

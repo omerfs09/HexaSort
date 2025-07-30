@@ -27,6 +27,13 @@ public class DraggableStack : MonoBehaviour,IPoolable
             PushHexagon(hexagon);
         }
     }
+    public void PushList(List<Hexagon> hexagons)
+    {
+        foreach(Hexagon hex in hexagons)
+        {
+            PushHexagon(hex);
+        }
+    }
     public void AddToSlot(HexagonSlot slot)
     {
         foreach (Hexagon item in hexaList)

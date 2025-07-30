@@ -6,6 +6,12 @@ using UnityEngine.UI;
 public class MoveSkillPanel : UIPanelTemplate
 {
     public Button cancelButton;
+    private Animator animator;
+    public override void Awake()
+    {
+        base.Awake();
+        animator = gameObject.GetComponent<Animator>();
+    }
     void Start()
     {
         cancelButton.onClick.AddListener(() => OnCancelButtonClick());
@@ -14,5 +20,16 @@ public class MoveSkillPanel : UIPanelTemplate
     {
         UIManager.HidePanel(panelType);
         GameController.Instance.ChangeControlState(ControlState.DragAndDrop);
+    }
+
+    public override void ShowPanel()
+    {
+        gameObject.SetActive(true);
+        animator.SetTrigger("Open");
+    }
+
+    public override void HidePanel()
+    {
+        animator.SetTrigger("Close");
     }
 }

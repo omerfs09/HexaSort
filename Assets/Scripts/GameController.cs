@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class GameController : MonoBehaviour
 {
@@ -57,10 +58,6 @@ public class GameController : MonoBehaviour
            
             mainCamera.transform.position = Quaternion.AngleAxis(dif.x, Vector3.up) * mainCamera.transform.position;
             mainCamera.transform.forward = - mainCamera.transform.position;
-            float angle1 = Vector3.Dot(Vector3.right, mainCamera.transform.position);
-            float angle2 = Vector3.Dot(Vector3.forward, mainCamera.transform.position);
-            float result = Mathf.Clamp(angle1 * angle2,0,1) / Mathf.Pow(mainCamera.transform.position.magnitude, 4); 
-            mainCamera.orthographicSize = Mathf.Abs(result+1) * startCameraSize*1;
         }
         else
         {
@@ -119,6 +116,7 @@ public class GameController : MonoBehaviour
             }
             else
             {
+                SFXManager.Instance.PlayClipOneShot(AudioEnums.AddToSlot);
                 CommandController.Instance.EnqueAddToSlotCommand(new AddToSlotCommand(currentDraggable, slot, currentDeskSlot));
                 currentDraggable.transform.position = slot.transform.position;
 
@@ -133,10 +131,7 @@ public class GameController : MonoBehaviour
         }
         if (currentDraggable != null)
             currentDraggable.Drag(DragPoint());
-        if (CommandController.Instance.IsDropable())
-        {
-            CommandController.Instance.RunAddToSlotQue();
-        }
+        
 
         void ReleaseObject()
         {
@@ -185,11 +180,13 @@ public class GameController : MonoBehaviour
 
                     DraggableStack draggableStack = PoolManager.Instance.GetItem(ItemType.Draggable) as DraggableStack;
                     draggable1 = draggableStack;
+                    List<Hexagon> hexagons = new();
                     while (slot.stack.Count > 0)
                     {
                         Hexagon hexagon = slot.PopObject();
-                        draggable1.PushHexagon(hexagon);
+                        hexagons.Add(hexagon);
                     }
+                    draggable1.PushList(hexagons.Reverse<Hexagon>().ToList());
                     sourceSlot = slot;
                 }
 
