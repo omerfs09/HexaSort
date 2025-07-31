@@ -6,11 +6,13 @@ public class RefreshDeskPanel : UIPanelTemplate
 {
     public override void HidePanel()
     {
+
         holder.SetActive(false);
     }
 
     public override void ShowPanel()
     {
+
         holder.SetActive(true);
     }
 }

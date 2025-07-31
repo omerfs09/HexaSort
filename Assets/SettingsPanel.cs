@@ -24,11 +24,11 @@ public class SettingsPanel : UIPanelTemplate
     {
         if (holder.activeInHierarchy)
         {
-            HidePanel();
+            UIManager.HideSettingsPanel();
         }
         else
         {
-            ShowPanel();
+            UIManager.ShowSettingsPanel();
         }
     }
     void Start()

@@ -1,21 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class LevelManager : MonoBehaviour
 {
-    public LevelManager Instance;
+    public static LevelManager Instance;
     float HEXAGON_R = GameConstants.HEXAGON_R;
     public List< LevelData> levelDatas;
     public List<HexagonSlot> slots;
     public Desk desk;
     public GameObject hexagonSlotParent;
-    void Start()
+    public TextMeshProUGUI levelNameTitle;
+    public int ClearSkillCount
+    {
+        get => PlayerPrefs.GetInt("ClearSkill",0);
+        set => PlayerPrefs.SetInt("ClearSkill", value);
+    }
+    public int MoveSkillCount
+    {
+        get => PlayerPrefs.GetInt("MoveSkill",0);
+        set => PlayerPrefs.SetInt("MoveSkill", value);
+    }
+    public int RefreshDeskCount
+    {
+        get => PlayerPrefs.GetInt("RefreshDesk",0);
+        set => PlayerPrefs.SetInt("RefreshDesk", value);
+    }
+    void Awake()
     {
         Instance = this;
+    }
+    void Start()
+    {
         slots  = LoadLevel(levelDatas[0]);
     }
-
+    public void SetPrefs(int val)
+    {
+        ClearSkillCount = val;
+        MoveSkillCount = val;
+        RefreshDeskCount = val;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -31,11 +56,12 @@ public class LevelManager : MonoBehaviour
             }
             PoolManager.Instance.ReturnItem(ItemType.HexagonSlot,hexSlot);
         }
-        desk.ClearDesk(null);
+        desk.ClearDesk();
         desk.deskOptions = null;
     }
     public void LoadLevel(int i)
     {
+        
         if (i < levelDatas.Count || i < 0)
             LoadLevel(levelDatas[i]);
         else Debug.Log("EndOfLevels");
@@ -81,6 +107,7 @@ public class LevelManager : MonoBehaviour
     }
     public List<HexagonSlot> LoadLevel(LevelData levelData)
     {
+        levelNameTitle.text = "Level " + levelData.levelName;
         desk.deskOptions = levelData.deskOptions;
         List<HexagonSlot> slotList = new();
         bool[,] adjacency = new bool[levelData.rows * levelData.collums,levelData.rows * levelData.collums];
@@ -166,7 +193,7 @@ public class LevelManager : MonoBehaviour
         
         DraggableStack draggable = (DraggableStack)PoolManager.Instance.GetItem(ItemType.Draggable);
         draggable.PushList(levelData.colors);
-        draggable.Drag(desk.transform.position);
+        draggable.Drag(desk.middle.transform.position);
         desk.middle.FillSlot(draggable);
         return slotList;
         int vectorToIndex(Vector2Int vector2Int)

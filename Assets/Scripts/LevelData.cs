@@ -13,4 +13,5 @@ public class LevelData: ScriptableObject
     public List<Colors> colors;
     public Vector3 deskPos;
     public DeskOptions deskOptions;
+    public string levelName;
 }

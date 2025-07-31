@@ -35,12 +35,18 @@ public class Desk : MonoBehaviour
     }
     public void RefreshDesk()
     {
-        ClearDesk(()=>FillDesk());
+        ClearDeskAnimated(()=>FillDesk(Diffuculty.Medium,GameStats.Instance.GetSlotsStatus()));
     }
-    public void ClearDesk(Action onComplete)
+    public void ClearDeskAnimated(Action onComplete)
     {
-        left.ClearSlot(()=> middle.ClearSlot(()=> right.ClearSlot(() => onComplete?.Invoke())));
+        left.ClearSlotAnimated(()=> middle.ClearSlotAnimated(()=> right.ClearSlotAnimated(() => onComplete?.Invoke())));
         
+    }
+    public void ClearDesk()
+    {
+        left.ClearSlot();
+        middle.ClearSlot();
+        right.ClearSlot();
     }
     public void FillDesk()
     {
@@ -59,7 +65,6 @@ public class Desk : MonoBehaviour
         colors.Add(Colors.Blue);
 
         stackl.PushList(colors);
-        stackl.Drag(left.transform.position);
         colors.Clear();
 
         colors.Add(Colors.Red);
@@ -72,7 +77,6 @@ public class Desk : MonoBehaviour
         
 
         stackm.PushList(colors);
-        stackm.Drag(middle.transform.position);
         colors.Clear();
         colors.Add(Colors.Blue);
         colors.Add(Colors.Blue);
@@ -83,7 +87,6 @@ public class Desk : MonoBehaviour
         colors.Add(Colors.Blue);
         
         stackr.PushList(colors);
-        stackr.Drag(right.transform.position);
         colors.Clear();
         left.FillSlot(stackl);
         middle.FillSlot(stackm);
@@ -207,8 +210,9 @@ public class Desk : MonoBehaviour
     public Colors GetRandomExistingColor()
     {
         List<Colors> colors = GameStats.Instance.ExistingColorsIterator();
-        
-        return colors[UnityEngine.Random.Range(0, colors.Count-1)];
+        if (colors.Count > 0)
+            return colors[UnityEngine.Random.Range(0, colors.Count - 1)];
+        else return Colors.Null;
     }
     public Colors GetRandomNonExistingColor()
     {
@@ -229,12 +233,9 @@ public class Desk : MonoBehaviour
         DraggableStack leftD = GetRandomDraggable(diffuculty,status);
         DraggableStack middleD = GetRandomDraggable(diffuculty,status);
         DraggableStack rightD = GetRandomDraggable(diffuculty,status);
-        leftD.Drag(left.transform.position);
-        rightD.Drag(right.transform.position);
-        middleD.Drag(middle.transform.position);
-        left.FillSlot(leftD);
-        middle.FillSlot(middleD);
-        right.FillSlot(rightD);
+        left.FillSlotAnimated(leftD,0.15f);
+        middle.FillSlotAnimated(middleD,0.25f);
+        right.FillSlotAnimated(rightD,0.35f);
             
         
     }

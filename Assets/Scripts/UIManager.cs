@@ -14,6 +14,13 @@ public class UIManager : MonoBehaviour
     {
         panelsDict[type].HidePanel();
     }
+    public static void HideAllPanels()
+    {
+        foreach(PanelType panelType in panelsDict.Keys)
+        {
+            panelsDict[panelType].holder.SetActive(false);
+        }
+    }
     public static void RegisterPanel(PanelType panelType,UIPanelTemplate panel)
     {
         if (!panelsDict.ContainsKey(panelType))
@@ -25,5 +32,34 @@ public class UIManager : MonoBehaviour
         else
         Debug.LogWarning("This type of panel exists => " + panelType.ToString());
     }
-    
+    public static void ShowClearSkillPanel()
+    {
+        HideAllPanels();
+        ShowPanel(PanelType.ClearSkillPanel);
+    }
+    public static void HideClearSkillPanel()
+    {
+        HidePanel(PanelType.ClearSkillPanel);
+        ShowPanel(PanelType.BoostersPanel);
+    }
+    public static void ShowMoveSkillPanel()
+    {
+        HideAllPanels();
+        ShowPanel(PanelType.MoveSkillPanel);
+    }
+    public static void HideMoveSkillPanel()
+    {
+        HidePanel(PanelType.MoveSkillPanel);
+        ShowPanel(PanelType.BoostersPanel);
+    }
+    public static void ShowSettingsPanel()
+    {
+        HideAllPanels();
+        ShowPanel(PanelType.SettingsPanel);
+    }
+    public static void HideSettingsPanel()
+    {
+        ShowPanel(PanelType.BoostersPanel);
+        HidePanel(PanelType.SettingsPanel);
+    }
 }

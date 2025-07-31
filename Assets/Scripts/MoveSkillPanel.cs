@@ -18,7 +18,7 @@ public class MoveSkillPanel : UIPanelTemplate
     }
     public void OnCancelButtonClick()
     {
-        UIManager.HidePanel(panelType);
+        UIManager.HideMoveSkillPanel();
         GameController.Instance.ChangeControlState(ControlState.DragAndDrop);
     }
 

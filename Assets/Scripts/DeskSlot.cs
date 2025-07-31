@@ -12,13 +12,14 @@ public class DeskSlot : MonoBehaviour
     {
         return stack == null;
     }
-    public void ClearSlot(Action onComplete)
+    public void ClearSlotAnimated(Action onComplete)
     {
         if (stack == null)
         {
             onComplete?.Invoke();
             return;
         }
+        stack.transform.DOKill();
         stack.transform.DOMoveX(-5,0.5f).OnComplete(() => end());
         void end()
         {
@@ -34,12 +35,18 @@ public class DeskSlot : MonoBehaviour
         {
             return;
         }
-            PoolManager.Instance.ReturnItem(ItemType.Draggable, stack);
-            stack = null;
+        PoolManager.Instance.ReturnItem(ItemType.Draggable, stack);
+        stack = null;
     }
     public void FillSlot(DraggableStack stack)
     {
         stack.Drag(transform.position);
+        this.stack = stack;
+    }
+    public void FillSlotAnimated(DraggableStack stack,float delay)
+    {
+        stack.transform.position = transform.position + Vector3.right * 5;
+        stack.transform.DOMove(transform.position, 0.14f).SetDelay(delay);
         this.stack = stack;
     }
     public void SetDesk(Desk desk)

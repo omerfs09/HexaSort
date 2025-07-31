@@ -120,8 +120,5 @@ public class SlotsStatus
         emptySlotCount = empty;
         totalSlotCount = total;
     }
-    public float FillRate()
-    {
-        return emptySlotCount / totalSlotCount;
-    }
+    
 }

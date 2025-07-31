@@ -157,7 +157,7 @@ public class GameController : MonoBehaviour
                     Debug.LogWarning("Clearing");
                     slot.ClearSlotSkill();
                     controlState = ControlState.DragAndDrop;
-                    UIManager.HidePanel(PanelType.ClearSkillPanel);
+                    UIManager.HideClearSkillPanel();
                 }
             }
         }
@@ -220,7 +220,7 @@ public class GameController : MonoBehaviour
 
             }
             controlState = ControlState.DragAndDrop;
-            UIManager.HidePanel(PanelType.MoveSkillPanel);
+            UIManager.HideMoveSkillPanel();
         }
 
         if (draggable1 != null)

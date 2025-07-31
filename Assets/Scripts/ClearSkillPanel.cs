@@ -20,7 +20,7 @@ public class ClearSkillPanel : UIPanelTemplate
     }
     public void OnCancelButtonClick()
     {
-        UIManager.HidePanel(panelType);
+        UIManager.HideClearSkillPanel();
         GameController.Instance.ChangeControlState(ControlState.DragAndDrop);
 
     }
