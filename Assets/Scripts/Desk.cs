@@ -9,6 +9,7 @@ public class Desk : MonoBehaviour
     public static Desk Instance;
     public DeskSlot left,right,middle;
     public DeskOptions deskOptions;  
+    
     public void Awake()
     {
         Instance = this;
@@ -91,6 +92,86 @@ public class Desk : MonoBehaviour
         left.FillSlot(stackl);
         middle.FillSlot(stackm);
         right.FillSlot(stackr);
+    }
+    public DraggableStack GetRandomDraggable(GameStats gameStats)
+    {
+        DraggableStack draggable = PoolManager.Instance.GetItem(ItemType.Draggable) as DraggableStack;
+
+        float progress = gameStats.GetProggress();
+        List<Colors> colors = new();
+        if(progress < 0.3f)
+        {
+            for(int i = 0 ; i < UnityEngine.Random.Range(1, 3) ; i++)
+            {
+                Colors colors1 = GetRandomColor(0.5f,0.5f);
+                for (int j = 0; j < UnityEngine.Random.Range(2,4); j++)
+                {
+                    colors.Add(colors1);
+                }
+
+            }
+        }
+        else if (progress < 0.6f)
+        {
+            for (int i = 0; i < UnityEngine.Random.Range(1, 3); i++)
+            {
+                Colors colors1 = GetRandomColor(0.3f,0.5f);
+                for (int j = 0; j < UnityEngine.Random.Range(1, 4); j++)
+                {
+                    colors.Add(colors1);
+                }
+
+            }
+        }
+        else 
+        {
+            for (int i = 0; i < UnityEngine.Random.Range(1, 3); i++)
+            {
+                Colors colors1 = GetRandomColor(0.1f,0.4f);
+                for (int j = 0; j < UnityEngine.Random.Range(1, 4); j++)
+                {
+                    colors.Add(colors1);
+                }
+
+            }
+        }
+        draggable.PushList(colors);
+        return draggable;
+    }
+    public Colors GetRandomColor()
+    {
+        if (deskOptions.colors.Count > 0)
+            return deskOptions.colors[UnityEngine.Random.Range(0, deskOptions.colors.Count)];
+        else return Colors.Null;
+    }
+    public Colors GetRandomRareColor()
+    {
+        if (deskOptions.rareColors.Count > 0)
+            return deskOptions.rareColors[UnityEngine.Random.Range(0, deskOptions.rareColors.Count )];
+        else return Colors.Null;
+    }
+    public Colors GetRandomRarestColor()
+    {
+        if (deskOptions.rarestColors.Count > 0)
+            return deskOptions.rarestColors[UnityEngine.Random.Range(0, deskOptions.rarestColors.Count)];
+        else return Colors.Null;
+    }
+    public Colors GetRandomColor(float probablity1,float probability2) //if sum of p1 + p2 > 1 third option will not be executed.
+    {
+        float prob = UnityEngine.Random.Range(0, 1f);
+        if(prob < probablity1)
+        {
+            return GetRandomColor();
+        }
+        else if(prob < probablity1 + probability2)
+        {
+            return GetRandomRareColor();
+        }
+        else
+        {
+            return GetRandomRarestColor();
+        }
+
     }
     public DraggableStack GetRandomDraggable(Diffuculty diffuculty,SlotsStatus status)
     {
@@ -230,9 +311,9 @@ public class Desk : MonoBehaviour
     }
     public void FillDesk(Diffuculty diffuculty, SlotsStatus status)
     {
-        DraggableStack leftD = GetRandomDraggable(diffuculty,status);
-        DraggableStack middleD = GetRandomDraggable(diffuculty,status);
-        DraggableStack rightD = GetRandomDraggable(diffuculty,status);
+        DraggableStack leftD = GetRandomDraggable(GameStats.Instance);
+        DraggableStack middleD = GetRandomDraggable(GameStats.Instance);
+        DraggableStack rightD = GetRandomDraggable(GameStats.Instance);
         left.FillSlotAnimated(leftD,0.15f);
         middle.FillSlotAnimated(middleD,0.25f);
         right.FillSlotAnimated(rightD,0.35f);
@@ -252,6 +333,9 @@ public class Desk : MonoBehaviour
 public class DeskOptions
 {
     public List<Colors> colors;
+    public List<Colors> rareColors;
+    public List<Colors> rarestColors;
+    
 }
 public enum Diffuculty
 {

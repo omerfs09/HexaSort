@@ -9,6 +9,7 @@ public class GameStats : MonoBehaviour
     Dictionary<Colors, int> numberOfColorsDict = new();
     List<HexagonSlot> slots = new();
     Dictionary<Colors, int> topColors = new();
+    private float progress = 0;
     void Awake()
     {
         Instance = this;
@@ -18,6 +19,7 @@ public class GameStats : MonoBehaviour
         
         }
     }
+
     public List<Colors> ExistingColorsIterator()
     {
         List<Colors> temp = new();
@@ -93,6 +95,7 @@ public class GameStats : MonoBehaviour
         if (numberOfColorsDict.ContainsKey(color))
         {
             numberOfColorsDict[color] += count;
+
         }
         else
         {
@@ -110,6 +113,18 @@ public class GameStats : MonoBehaviour
         if (numberOfColorsDict.ContainsKey(color))
             numberOfColorsDict[color] = value;
         else AddColor(color,value);
+    }
+    public void ChangeProggress(float diff)
+    {
+        progress += diff;
+    }
+    public float GetProggress()
+    {
+        return progress;
+    }
+    public void DebugProggres()
+    {
+        Debug.Log( progress);
     }
 }
 public class SlotsStatus

@@ -188,8 +188,10 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             stack.Pop().transform.DOScale(Vector3.zero, 0.15f).SetDelay(i * totalTime / colorSeries).SetEase(Ease.InOutBack);
             stackHeight += -GameConstants.STACK_SPACE;
             i++;
+            
         }
         GameStats.Instance.AddColor(color, -i);
+        GameStats.Instance.ChangeProggress(i * 0.005f);
         StartCoroutine(wait());
         IEnumerator wait()
         {

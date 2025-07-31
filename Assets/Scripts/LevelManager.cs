@@ -192,7 +192,11 @@ public class LevelManager : MonoBehaviour
         desk.transform.position = levelData.deskPos;
         
         DraggableStack draggable = (DraggableStack)PoolManager.Instance.GetItem(ItemType.Draggable);
-        draggable.PushList(levelData.colors);
+        List<Colors> startColors = new();
+        startColors.Add(Colors.Red);
+        startColors.Add(Colors.Red);
+        startColors.Add(Colors.Blue);
+        draggable.PushList(startColors);
         draggable.Drag(desk.middle.transform.position);
         desk.middle.FillSlot(draggable);
         return slotList;
