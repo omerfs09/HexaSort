@@ -15,7 +15,7 @@ MonoBehaviour:
   rows: 4
   collums: 4
   startPos: {x: -0.945, y: -0, z: 1.6354799}
-  cameraSize: 5
+  cameraSize: 3.9
   deskPos: {x: 0, y: 0, z: -2.75}
   deskOptions:
     colors: 0000000001000000

@@ -10,7 +10,10 @@ public class Settings : MonoBehaviour
     {
         return PlayerPrefs.GetInt(settingsEnum.ToString(),1);
     }
-
+    public static void SetSetting(SettingsEnum settingsEnum,int val)
+    {
+        PlayerPrefs.SetInt(settingsEnum.ToString(), val);
+    }
 }
 public enum SettingsEnum
 {

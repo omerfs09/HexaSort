@@ -113,7 +113,7 @@ public class Desk : MonoBehaviour
         }
         else if (progress < 0.6f)
         {
-            for (int i = 0; i < UnityEngine.Random.Range(1, 3); i++)
+            for (int i = 0; i < UnityEngine.Random.Range(2, 3); i++)
             {
                 Colors colors1 = GetRandomColor(0.3f,0.5f);
                 for (int j = 0; j < UnityEngine.Random.Range(1, 4); j++)
@@ -125,7 +125,7 @@ public class Desk : MonoBehaviour
         }
         else 
         {
-            for (int i = 0; i < UnityEngine.Random.Range(1, 3); i++)
+            for (int i = 0; i < UnityEngine.Random.Range(2, 4); i++)
             {
                 Colors colors1 = GetRandomColor(0.1f,0.4f);
                 for (int j = 0; j < UnityEngine.Random.Range(1, 4); j++)

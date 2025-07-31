@@ -60,6 +60,7 @@ public class SFXManager : MonoBehaviour
 
     public void PlayClipOneShot(AudioEnums soundName, float volume = 1)
     {
+        if (Settings.GetSetting(SettingsEnum.SOUND) == 0) return;
         _oneShotAudioSource.PlayOneShot(sounds[(int)soundName], volume);
     }
 
@@ -97,6 +98,7 @@ public class SFXManager : MonoBehaviour
 
     public void PlayClipOnLocation(AudioEnums soundName, Vector3 position, float volume = 1)
     {
+        
         AudioSource.PlayClipAtPoint(sounds[(int)soundName], position, volume);
     }
 

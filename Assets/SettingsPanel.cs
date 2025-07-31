@@ -6,10 +6,12 @@ using UnityEngine.UI;
 public class SettingsPanel : UIPanelTemplate
 {
     public Button settingsButton;
+    public Button soundButton;
     public override void Awake()
     {
         base.Awake();
         settingsButton.onClick.AddListener(() => OpenClose());
+        soundButton.onClick.AddListener(() => SoundButtonOnClick());
     }
     public override void HidePanel()
     {
@@ -30,6 +32,10 @@ public class SettingsPanel : UIPanelTemplate
         {
             UIManager.ShowSettingsPanel();
         }
+    }
+    public void SoundButtonOnClick() {
+        if (Settings.GetSetting(SettingsEnum.SOUND) > 0) Settings.SetSetting(SettingsEnum.SOUND,0);
+        else Settings.SetSetting(SettingsEnum.SOUND, 1);
     }
     void Start()
     {
