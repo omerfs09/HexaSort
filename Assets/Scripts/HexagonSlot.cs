@@ -16,7 +16,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
     public static bool addToSlotEnabled = true;
     void Start()
     {
-
+        Time.timeScale = 1f;
     }
 
     // Update is called once per frame
@@ -115,7 +115,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         isAvailable = false;
         other.isAvailable = false;
         int i = 0;
-        float totalTime = 1;
+        float totalTime = 0.5f;
         int colorSeries = GetColorSeries();
 
         while (stack.Count > 0 && color == stack.Peek().color)
@@ -123,11 +123,16 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             Hexagon hexagon = stack.Pop();
             other.PushObject(hexagon, false);
             stackHeight -= GameConstants.STACK_SPACE;
+            
             hexagon.transform.DOJump(other.transform.position + (other.stackHeight - STACK_SPACE) * Vector3.up, 0.1f, 1, 0.15f).SetDelay(i * totalTime / colorSeries);
-            hexagon.transform.DORotate(new Vector3(0, 0, 180), 0.15f).SetDelay(i * totalTime / colorSeries);
+            Vector3 rotateDirection;
+            rotateDirection = other.transform.position - hexagon.transform.position;
+            rotateDirection =  Vector3.Cross(rotateDirection.normalized,Vector3.up).normalized;
+            Quaternion quaternion = hexagon.transform.rotation * Quaternion.AngleAxis(180f, rotateDirection);
+            hexagon.transform.DORotate(quaternion.eulerAngles, 0.15f).SetDelay(i * totalTime / colorSeries);
             i++;
         }
-        float wait = totalTime + 0.5f;
+        float wait = totalTime + 0.1f;
         StartCoroutine(cor());
         IEnumerator cor()
         {
@@ -138,7 +143,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             addToSlotEnabled = true;
             onComplete?.Invoke();
         }
-
+        
     }
 
     public void CheckMatch(Action action)
@@ -200,10 +205,10 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             }
         }
     }
-    public void ClearSlot()
+    public void ClearSlotSkill()
     {
         isAvailable = false;
-        float totalTime = 1;
+        float totalTime = 0.5f;
         int colorSeries = GetColorSeries();
         int i = 0;
         string clearString = "";
@@ -211,7 +216,9 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         {
             GameStats.Instance.AddColor(stack.Peek().color, -1);
             clearString += stack.Peek().color.ToString() + ",";
-            stack.Pop().transform.DOScale(Vector3.zero, 0.15f).SetDelay(i * totalTime / colorSeries).SetEase(Ease.InOutBack);
+            Hexagon hexagon = stack.Pop();
+            hexagon.transform.DOScale(Vector3.zero, 0.15f).SetDelay(i * totalTime / colorSeries).SetEase(Ease.InOutBack);
+            hexagon.transform.DOMove(transform.position, 0.15f).SetDelay(i * totalTime / colorSeries);
             stackHeight += -GameConstants.STACK_SPACE;
             i++;
         }

@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
+using System;
 public class DeskSlot : MonoBehaviour
 {
     Desk desk;
@@ -11,16 +12,34 @@ public class DeskSlot : MonoBehaviour
     {
         return stack == null;
     }
+    public void ClearSlot(Action onComplete)
+    {
+        if (stack == null)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+        stack.transform.DOMoveX(-5,0.5f).OnComplete(() => end());
+        void end()
+        {
+            PoolManager.Instance.ReturnItem(ItemType.Draggable, stack);
+            stack = null;
+            onComplete?.Invoke();
+        }
+
+    }
     public void ClearSlot()
     {
-        if (stack == null) return;
-        
-        PoolManager.Instance.ReturnItem(ItemType.Draggable, stack);
-        stack = null;
-        
+        if (stack == null)
+        {
+            return;
+        }
+            PoolManager.Instance.ReturnItem(ItemType.Draggable, stack);
+            stack = null;
     }
     public void FillSlot(DraggableStack stack)
     {
+        stack.Drag(transform.position);
         this.stack = stack;
     }
     public void SetDesk(Desk desk)

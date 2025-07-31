@@ -31,7 +31,7 @@ public class LevelManager : MonoBehaviour
             }
             PoolManager.Instance.ReturnItem(ItemType.HexagonSlot,hexSlot);
         }
-        desk.ClearDesk();
+        desk.ClearDesk(null);
         desk.deskOptions = null;
     }
     public void LoadLevel(int i)

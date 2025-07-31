@@ -35,14 +35,12 @@ public class Desk : MonoBehaviour
     }
     public void RefreshDesk()
     {
-        ClearDesk();
-        FillDesk();
+        ClearDesk(()=>FillDesk());
     }
-    public void ClearDesk()
+    public void ClearDesk(Action onComplete)
     {
-        left.ClearSlot();
-        middle.ClearSlot();
-        right.ClearSlot();
+        left.ClearSlot(()=> middle.ClearSlot(()=> right.ClearSlot(() => onComplete?.Invoke())));
+        
     }
     public void FillDesk()
     {

@@ -130,7 +130,7 @@ public class GameController : MonoBehaviour
 
         }
         if (currentDraggable != null)
-            currentDraggable.Drag(DragPoint());
+            currentDraggable.DragAnimated(DragPoint());
         
 
         void ReleaseObject()
@@ -155,7 +155,7 @@ public class GameController : MonoBehaviour
                 if(slot != null)
                 {
                     Debug.LogWarning("Clearing");
-                    slot.ClearSlot();
+                    slot.ClearSlotSkill();
                     controlState = ControlState.DragAndDrop;
                     UIManager.HidePanel(PanelType.ClearSkillPanel);
                 }
@@ -180,6 +180,7 @@ public class GameController : MonoBehaviour
 
                     DraggableStack draggableStack = PoolManager.Instance.GetItem(ItemType.Draggable) as DraggableStack;
                     draggable1 = draggableStack;
+                    draggable1.Drag(DragPoint());
                     List<Hexagon> hexagons = new();
                     while (slot.stack.Count > 0)
                     {
@@ -224,7 +225,7 @@ public class GameController : MonoBehaviour
 
         if (draggable1 != null)
         {
-            draggable1.Drag(DragPoint());
+            draggable1.DragAnimated(DragPoint());
         }
     }
     public Vector3 DragPoint()
