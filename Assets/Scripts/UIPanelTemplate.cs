@@ -33,4 +33,5 @@ public enum PanelType
     RefreshDeskPanel,
     GameOverPanel,
     ProgressBar,
+    LevelCompletePanel,
 }

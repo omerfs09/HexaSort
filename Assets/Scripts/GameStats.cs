@@ -72,15 +72,17 @@ public class GameStats : MonoBehaviour
             Debug.LogWarning("Game Over!!!!");
         }
     }
-    public void CheckLevelComplete()
+    public bool CheckLevelComplete()
     {
         if(progress >= progressAim)
         {
-            //Level Complete
+            UIManager.ShowLevelCompletePanel();
+            return true;
         }
         else
         {
             //Do Nothing
+            return false;
         }
     }
     public Dictionary<Colors,int> GetSlotColors()
@@ -195,6 +197,10 @@ public class GameStats : MonoBehaviour
     public float GetProggressAim()
     {
         return progressAim;
+    }
+    public void SetProggressAim(int aim)
+    {
+        progressAim = aim;
     }
     public void DebugProggres()
     {

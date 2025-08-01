@@ -70,4 +70,9 @@ public class UIManager : MonoBehaviour
         ShowPanel(PanelType.BoostersPanel);
         ShowPanel(PanelType.ProgressBar);
     }
+    public static void ShowLevelCompletePanel()
+    {
+        HideAllPanels();
+        ShowPanel(PanelType.LevelCompletePanel);
+    }
 }

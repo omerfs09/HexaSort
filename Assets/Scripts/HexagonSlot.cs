@@ -252,8 +252,12 @@ public class HexagonSlot : MonoBehaviour, IPoolable
     }
     public void OnAllAnimationsEnded()
     {
+        if (GameStats.Instance.CheckLevelComplete())
+        {
+
+        }
+        else
         GameStats.Instance.CheckGameOver();
-        
     }
     public void Test()
     {

@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1609fb6d59a658e47aee1994ad0ccb03, type: 3}
-  m_Name: 1
+  m_Name: 4
   m_EditorClassIdentifier: 
-  rows: 4
-  collums: 4
-  startPos: {x: -0.945, y: -0, z: 1.6354799}
-  cameraSize: 3.9
+  rows: 6
+  collums: 6
+  startPos: {x: -1.5749999, y: -0, z: 2.7257998}
+  cameraSize: 5
   deskPos: {x: 0, y: 0, z: -2.75}
   deskOptions:
-    colors: 0000000001000000
-    rareColors: 030000000200000005000000
-    rarestColors: 04000000
+    colors: 010000000200000003000000
+    rareColors: 00000000
+    rarestColors: 00000000
     targetMoveCount1: 10
     targetMoveCount2: 20
-  levelName: 1
-  progressAim: 50
+  levelName: 4
+  progressAim: 100

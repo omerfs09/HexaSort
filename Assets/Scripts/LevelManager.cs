@@ -31,7 +31,11 @@ public class LevelManager : MonoBehaviour
     public int LevelNo
     {
         get => PlayerPrefs.GetInt("Level", 0);
-        set => PlayerPrefs.SetInt("Level", value);
+        set
+        {
+            if (value <= levelDatas.Count - 1)
+            PlayerPrefs.SetInt("Level", value);
+        }
     }
     void Awake()
     {
@@ -40,6 +44,8 @@ public class LevelManager : MonoBehaviour
     }
     void Start()
     {
+        
+
         LoadLevel(LevelNo);
     }
     public void SetPrefs(int val)
@@ -71,6 +77,12 @@ public class LevelManager : MonoBehaviour
     {
         ClearLevel();
         LoadLevel(currentLevel);
+    }
+    public void LoadNextLevel()
+    {
+        ClearLevel();
+        LevelNo++;
+        LoadLevel(LevelNo);
     }
     public void LoadLevel(int i)
     {
@@ -215,6 +227,7 @@ public class LevelManager : MonoBehaviour
         desk.middle.FillSlot(draggable);
         this.slots = slotList;
         UIManager.ShowMainPanel();
+        GameStats.Instance.SetProggressAim(levelData.progressAim);
 
         int vectorToIndex(Vector2Int vector2Int)
         {
