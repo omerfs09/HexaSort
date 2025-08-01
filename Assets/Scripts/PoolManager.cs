@@ -100,7 +100,7 @@ public class PoolManager : MonoBehaviour
         if (pooledItemsSet[itemType].Contains(item))
         {
             Debug.LogWarning($"Trying to return an already pooled item of type {itemType}");
-            return;
+            //return;
         }
 
         (item as MonoBehaviour).gameObject.SetActive(false);

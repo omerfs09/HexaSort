@@ -38,7 +38,10 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         else topColor = Colors.Null;
 
         if (topColor != Colors.Null)
+        {
             CheckNeighbors(topColor, () => CommandController.Instance.RunClearQueue());
+            
+        }
 
 
     }

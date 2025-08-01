@@ -27,13 +27,19 @@ public class LevelManager : MonoBehaviour
         get => PlayerPrefs.GetInt("RefreshDesk",0);
         set => PlayerPrefs.SetInt("RefreshDesk", value);
     }
+    public int LevelNo
+    {
+        get => PlayerPrefs.GetInt("Level", 0);
+        set => PlayerPrefs.SetInt("Level", value);
+    }
     void Awake()
     {
         Instance = this;
+        Application.targetFrameRate = 60;
     }
     void Start()
     {
-        slots  = LoadLevel(levelDatas[0]);
+        LoadLevel(LevelNo);
     }
     public void SetPrefs(int val)
     {
@@ -105,7 +111,7 @@ public class LevelManager : MonoBehaviour
             return new Vector3(x, 0, z);
         }
     }
-    public List<HexagonSlot> LoadLevel(LevelData levelData)
+    public void LoadLevel(LevelData levelData)
     {
         levelNameTitle.text = "Level " + levelData.levelName;
         desk.deskOptions = levelData.deskOptions;
@@ -199,7 +205,7 @@ public class LevelManager : MonoBehaviour
         draggable.PushList(startColors);
         draggable.Drag(desk.middle.transform.position);
         desk.middle.FillSlot(draggable);
-        return slotList;
+        this.slots = slotList;
         int vectorToIndex(Vector2Int vector2Int)
         {
             return vector2Int.x * levelData.collums + vector2Int.y;

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using DG.Tweening;
 
 public class GameController : MonoBehaviour
 {
@@ -119,7 +120,8 @@ public class GameController : MonoBehaviour
                 SFXManager.Instance.PlayClipOneShot(AudioEnums.AddToSlot);
                 CommandController.Instance.EnqueAddToSlotCommand(new AddToSlotCommand(currentDraggable, slot, currentDeskSlot));
                 currentDraggable.transform.position = slot.transform.position;
-
+                slot.transform.DOScaleX(1.2f, 0.1f);
+                slot.transform.DOScaleX(1, 0.1f).SetDelay(0.1f);
 
             }
             ReleaseObject();

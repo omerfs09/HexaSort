@@ -53,7 +53,7 @@ public class DraggableStack : MonoBehaviour,IPoolable
     }
     public void DragAnimated(Vector3 pos)
     {
-        transform.position = Vector3.Lerp(transform.position, pos, 0.05f);
+        transform.position = Vector3.Lerp(transform.position, pos, 0.15f*Time.deltaTime*60);
     }
     public void OnSpawn()
     {
