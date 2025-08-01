@@ -19,6 +19,8 @@ MonoBehaviour:
   deskPos: {x: 0, y: 0, z: -2.75}
   deskOptions:
     colors: 0000000001000000
-    rareColors: 0300000002000000
+    rareColors: 030000000200000005000000
     rarestColors: 04000000
+    targetMoveCount1: 10
+    targetMoveCount2: 20
   levelName: 1

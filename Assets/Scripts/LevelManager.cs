@@ -12,6 +12,7 @@ public class LevelManager : MonoBehaviour
     public Desk desk;
     public GameObject hexagonSlotParent;
     public TextMeshProUGUI levelNameTitle;
+    LevelData currentLevel;
     public int ClearSkillCount
     {
         get => PlayerPrefs.GetInt("ClearSkill",0);
@@ -64,6 +65,12 @@ public class LevelManager : MonoBehaviour
         }
         desk.ClearDesk();
         desk.deskOptions = null;
+        GameStats.Instance.ResetStats();
+    }
+    public void ReloadLevel()
+    {
+        ClearLevel();
+        LoadLevel(currentLevel);
     }
     public void LoadLevel(int i)
     {
@@ -113,6 +120,7 @@ public class LevelManager : MonoBehaviour
     }
     public void LoadLevel(LevelData levelData)
     {
+        currentLevel = levelData;
         levelNameTitle.text = "Level " + levelData.levelName;
         desk.deskOptions = levelData.deskOptions;
         List<HexagonSlot> slotList = new();
@@ -206,6 +214,8 @@ public class LevelManager : MonoBehaviour
         draggable.Drag(desk.middle.transform.position);
         desk.middle.FillSlot(draggable);
         this.slots = slotList;
+        UIManager.ShowMainPanel();
+
         int vectorToIndex(Vector2Int vector2Int)
         {
             return vector2Int.x * levelData.collums + vector2Int.y;

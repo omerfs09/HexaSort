@@ -39,8 +39,18 @@ public class HexagonSlot : MonoBehaviour, IPoolable
 
         if (topColor != Colors.Null)
         {
-            CheckNeighbors(topColor, () => CommandController.Instance.RunClearQueue());
-            
+            CheckNeighbors(topColor, () => {
+                if(CommandController.Instance.clearQue.Count > 0)
+                {
+                    CommandController.Instance.RunClearQueue();
+                }
+                else
+                {
+                    GameStats.Instance.CheckGameOver();
+                }
+                
+            });
+            GameStats.Instance.moves++;
         }
 
 
@@ -194,7 +204,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             
         }
         GameStats.Instance.AddColor(color, -i);
-        GameStats.Instance.ChangeProggress(i * 0.005f);
+        GameStats.Instance.ChangeProggress(i);
         StartCoroutine(wait());
         IEnumerator wait()
         {
@@ -206,6 +216,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             clearedSlots--;
             if (clearedSlots <= 0)
             {
+                OnAllAnimationsEnded();
                 clearedSlots = 0;
             }
         }
@@ -241,7 +252,8 @@ public class HexagonSlot : MonoBehaviour, IPoolable
     }
     public void OnAllAnimationsEnded()
     {
-        addToSlotEnabled = true;
+        GameStats.Instance.CheckGameOver();
+        
     }
     public void Test()
     {

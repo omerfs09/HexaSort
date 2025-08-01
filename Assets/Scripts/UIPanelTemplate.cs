@@ -31,4 +31,6 @@ public enum PanelType
     ClearSkillPanel,
     MoveSkillPanel,
     RefreshDeskPanel,
+    GameOverPanel,
+    ProgressBar,
 }

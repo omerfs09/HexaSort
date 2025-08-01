@@ -40,7 +40,8 @@ public class UIManager : MonoBehaviour
     public static void HideClearSkillPanel()
     {
         HidePanel(PanelType.ClearSkillPanel);
-        ShowPanel(PanelType.BoostersPanel);
+        ShowMainPanel();
+
     }
     public static void ShowMoveSkillPanel()
     {
@@ -50,7 +51,8 @@ public class UIManager : MonoBehaviour
     public static void HideMoveSkillPanel()
     {
         HidePanel(PanelType.MoveSkillPanel);
-        ShowPanel(PanelType.BoostersPanel);
+        ShowMainPanel();
+
     }
     public static void ShowSettingsPanel()
     {
@@ -59,7 +61,13 @@ public class UIManager : MonoBehaviour
     }
     public static void HideSettingsPanel()
     {
-        ShowPanel(PanelType.BoostersPanel);
+        ShowMainPanel();
         HidePanel(PanelType.SettingsPanel);
+    }
+    public static void ShowMainPanel()
+    {
+        HideAllPanels();
+        ShowPanel(PanelType.BoostersPanel);
+        ShowPanel(PanelType.ProgressBar);
     }
 }

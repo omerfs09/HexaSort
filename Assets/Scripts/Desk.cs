@@ -8,8 +8,8 @@ public class Desk : MonoBehaviour
 {
     public static Desk Instance;
     public DeskSlot left,right,middle;
-    public DeskOptions deskOptions;  
-    
+    public DeskOptions deskOptions;
+    public List<Colors> availableColors;
     public void Awake()
     {
         Instance = this;
@@ -97,7 +97,7 @@ public class Desk : MonoBehaviour
     {
         DraggableStack draggable = PoolManager.Instance.GetItem(ItemType.Draggable) as DraggableStack;
 
-        float progress = gameStats.GetProggress();
+        float progress = gameStats.GetProggress()*0.01f;
         List<Colors> colors = new();
         if(progress < 0.3f)
         {
@@ -138,6 +138,69 @@ public class Desk : MonoBehaviour
         draggable.PushList(colors);
         return draggable;
     }
+    public List<Colors> GetAvailableColors()
+    {
+        List<Colors> colors = new List<Colors>(deskOptions.colors);
+        if(GameStats.Instance.moves >= deskOptions.targetMoveCount1)
+        {
+            colors.AddRange(deskOptions.rareColors);
+        }
+        if (GameStats.Instance.moves >= deskOptions.targetMoveCount2)
+        {
+            colors.AddRange(deskOptions.rarestColors);
+        }
+        return colors;
+    }
+    public Colors GetNormalColor()
+    {
+        List<Colors> colors = GetAvailableColors();
+        if (colors.Count > 0)
+            return colors[UnityEngine.Random.Range(0, colors.Count)];
+        else return Colors.Null;
+    }
+    public Colors GetEasyColor()
+    {
+        Dictionary<Colors, int> dict = GameStats.Instance.GetSlotColors();
+        if (dict.Count > 0)
+        {
+            return GetWeightedRandom(dict);
+        }
+        else return GetNormalColor();
+    }
+    public Colors GetHardColor()
+    {
+        Dictionary<Colors, int> dict = new Dictionary<Colors, int> (GameStats.Instance.GetSlotColors());
+        foreach (var item in dict)
+        {
+            if(item.Value <= 0)
+            {
+                dict.Remove(item.Key);
+                dict.Add(item.Key, 15);
+            }
+        }
+        if (dict.Count > 0)
+        {
+            return GetWeightedRandom(dict);
+        }
+        else return GetNormalColor();
+    }
+    Colors GetWeightedRandom(Dictionary<Colors, int> dict)
+    {
+        float totalWeight = dict.Values.Sum();
+        float randomValue = UnityEngine.Random.Range(0, totalWeight);
+
+        float cumulative = 0f;
+
+        foreach (var pair in dict)
+        {
+            cumulative += pair.Value;
+            if (randomValue <= cumulative)
+                return pair.Key;
+        }
+
+        return dict.Keys.First();
+    }
+    
     public Colors GetRandomColor()
     {
         if (deskOptions.colors.Count > 0)
@@ -161,15 +224,15 @@ public class Desk : MonoBehaviour
         float prob = UnityEngine.Random.Range(0, 1f);
         if(prob < probablity1)
         {
-            return GetRandomColor();
+            return GetEasyColor();
         }
         else if(prob < probablity1 + probability2)
         {
-            return GetRandomRareColor();
+            return GetNormalColor();
         }
         else
         {
-            return GetRandomRarestColor();
+            return GetHardColor();
         }
 
     }
@@ -335,6 +398,8 @@ public class DeskOptions
     public List<Colors> colors;
     public List<Colors> rareColors;
     public List<Colors> rarestColors;
+    public int targetMoveCount1;
+    public int targetMoveCount2;
     
 }
 public enum Diffuculty

@@ -6,10 +6,23 @@ using System;
 public class GameStats : MonoBehaviour
 {
     public static GameStats Instance;
+    public int moves;
     Dictionary<Colors, int> numberOfColorsDict = new();
     List<HexagonSlot> slots = new();
     Dictionary<Colors, int> topColors = new();
     private float progress = 0;
+    private float progressAim = 100;
+    public void ResetStats()
+    {
+        moves = 0;
+        slots.Clear();
+        topColors.Clear();
+        progress = 0;
+    }
+    public override string ToString()
+    {
+        return "Moves" + moves.ToString() + "Number Of Slots" + slots.Count.ToString() + "Top Colors\n" + topColors.ToString(); 
+    }
     void Awake()
     {
         Instance = this;
@@ -19,7 +32,13 @@ public class GameStats : MonoBehaviour
         
         }
     }
-
+    public void PrintExistingColors()
+    {
+        foreach (var item in ColorSeriesIterator())
+        {
+            Debug.Log(item.Key +" = " + item.Value);
+        }
+    }
     public List<Colors> ExistingColorsIterator()
     {
         List<Colors> temp = new();
@@ -33,6 +52,55 @@ public class GameStats : MonoBehaviour
             }
         }
         return temp;
+    }
+    public void CheckGameOver()
+    {
+        bool gameOver = true;
+
+        foreach (var item in slots)
+        {
+            if (item.IsEmpty())
+            {
+                gameOver = false;
+                break; 
+            }
+        }
+        if (gameOver)
+        {
+            UIManager.HideAllPanels();
+            UIManager.ShowPanel(PanelType.GameOverPanel);
+            Debug.LogWarning("Game Over!!!!");
+        }
+    }
+    public void CheckLevelComplete()
+    {
+        if(progress >= progressAim)
+        {
+            //Level Complete
+        }
+        else
+        {
+            //Do Nothing
+        }
+    }
+    public Dictionary<Colors,int> GetSlotColors()
+    {
+        Dictionary<Colors, int> dict = new();
+        foreach (var item in slots)
+        {
+            Colors color = item.GetTopColor();
+            if (color != Colors.Null)
+            {
+
+                if (dict.ContainsKey(color))
+                {
+                    dict[color]++;
+                }
+                else
+                dict.Add(item.GetTopColor(), 1);
+            }
+        }
+        return dict;
     }
     public List<Colors> NonExistingColorsIterator()
     {
@@ -70,6 +138,7 @@ public class GameStats : MonoBehaviour
         {
             Debug.Log(item.Key.ToString() + item.Value.ToString());
         }
+        Debug.Log(ToString());
     }
     public SlotsStatus GetSlotsStatus()
     {
@@ -117,10 +186,15 @@ public class GameStats : MonoBehaviour
     public void ChangeProggress(float diff)
     {
         progress += diff;
+        
     }
     public float GetProggress()
     {
         return progress;
+    }
+    public float GetProggressAim()
+    {
+        return progressAim;
     }
     public void DebugProggres()
     {
