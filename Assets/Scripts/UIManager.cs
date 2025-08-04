@@ -14,6 +14,10 @@ public class UIManager : MonoBehaviour
     {
         panelsDict[type].HidePanel();
     }
+    public static UIPanelTemplate GetPanel(PanelType type)
+    {
+        return panelsDict[type];
+    }
     public static void HideAllPanels()
     {
         foreach(PanelType panelType in panelsDict.Keys)

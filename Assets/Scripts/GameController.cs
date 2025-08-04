@@ -48,6 +48,10 @@ public class GameController : MonoBehaviour
             {
                 MoveSkill();
             }
+            else if(controlState == ControlState.InActive)
+            {
+
+            }
         
         previousMousePos = Input.mousePosition;
     }
@@ -55,13 +59,14 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-
+           
             controlState = ControlState.RotateCamera;
             Vector3 dif = Input.mousePosition - previousMousePos;
 
-            //slotsParent.transform.Rotate(Vector3.up,dif.x*15);
+            //slotsParent.transform.Rotate(Vector3.up,dif.x*5*Time.deltaTime*60);
             mainCamera.transform.position = Quaternion.AngleAxis(dif.x, Vector3.up) * mainCamera.transform.position;
             mainCamera.transform.forward = - mainCamera.transform.position;
+            
         }
         else
         {
@@ -86,12 +91,14 @@ public class GameController : MonoBehaviour
                 {
                     if (currentDraggable == null)
                     {
+                        SFXManager.Instance.PlayClipOneShot(AudioEnums.Lift);
                         currentDraggable = draggable;
-                        initialPos = draggable.transform.position;
+                        initialPos = currentDeskSlot.transform.position;
 
                     }
 
                 }
+                else { controlState = ControlState.RotateCamera; }
 
             }
             else
@@ -116,7 +123,7 @@ public class GameController : MonoBehaviour
 
             if (slot == null || !slot.IsEmpty() || !slot.isAvailable)
             {
-                currentDraggable.transform.position = initialPos;
+                currentDraggable.MoveTo(initialPos);
             }
             else
             {
@@ -157,7 +164,7 @@ public class GameController : MonoBehaviour
             if (Physics.Raycast(ray, out hit, slotLayer))
             {
                 HexagonSlot slot = hit.collider.GetComponent<HexagonSlot>();
-                if(slot != null)
+                if(slot != null && !slot.IsEmpty())
                 {
                     Debug.LogWarning("Clearing");
                     slot.ClearSlotSkill();
@@ -235,7 +242,7 @@ public class GameController : MonoBehaviour
     }
     public Vector3 DragPoint()
     {
-        return mainCamera.ScreenToWorldPoint(Input.mousePosition) + mainCamera.transform.forward * 3;
+        return mainCamera.ScreenToWorldPoint(Input.mousePosition) + mainCamera.transform.forward * 6;
     }
 }
 
@@ -245,5 +252,6 @@ public enum ControlState
     RotateCamera,
     ClearSkill,
     MoveSkill,
-    DesteKar
+    DesteKar,
+    InActive,
 }

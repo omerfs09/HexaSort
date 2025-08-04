@@ -67,6 +67,7 @@ public class GameStats : MonoBehaviour
         }
         if (gameOver)
         {
+            GameController.Instance.ChangeControlState(ControlState.InActive);
             UIManager.HideAllPanels();
             UIManager.ShowPanel(PanelType.GameOverPanel);
             Debug.LogWarning("Game Over!!!!");
@@ -77,6 +78,8 @@ public class GameStats : MonoBehaviour
         if(progress >= progressAim)
         {
             UIManager.ShowLevelCompletePanel();
+            GameController.Instance.ChangeControlState(ControlState.InActive);
+
             return true;
         }
         else

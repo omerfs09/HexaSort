@@ -86,4 +86,7 @@ public class SFXManager : MonoBehaviour
 public enum AudioEnums
 {
     AddToSlot,
+    Lift,
+    Pour,
+    ClearDesk,
 }

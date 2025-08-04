@@ -130,7 +130,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         int i = 0;
         float totalTime = 0.5f;
         int colorSeries = GetColorSeries();
-
+        SFXManager.Instance.PlayClipOneShot(AudioEnums.Pour);
         while (stack.Count > 0 && color == stack.Peek().color)
         {
             Hexagon hexagon = stack.Pop();
@@ -155,6 +155,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             //stackHeight = GameConstants.STACK_SPACE;
             addToSlotEnabled = true;
             onComplete?.Invoke();
+        
         }
         
     }
@@ -208,7 +209,9 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         StartCoroutine(wait());
         IEnumerator wait()
         {
-            yield return new WaitForSeconds(totalTime + 0.5f);
+            yield return new WaitForSeconds(totalTime);
+            ParticleSystem p = VFXManager.Instance.GetParticle(VFXEnums.ClearSlotVFX2, transform.position);
+            yield return new WaitForSeconds(0.5f);
             //CheckNeighbors(GetTopColor(),null);
             Debug.Log(clearString + i.ToString(), this);
             isAvailable = true;
@@ -219,6 +222,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
                 OnAllAnimationsEnded();
                 clearedSlots = 0;
             }
+
         }
     }
     public void ClearSlotSkill()

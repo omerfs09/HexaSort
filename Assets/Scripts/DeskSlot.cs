@@ -40,13 +40,15 @@ public class DeskSlot : MonoBehaviour
     }
     public void FillSlot(DraggableStack stack)
     {
+        stack.transform.SetParent(this.transform);
         stack.Drag(transform.position);
         this.stack = stack;
     }
     public void FillSlotAnimated(DraggableStack stack,float delay)
     {
-        stack.transform.position = transform.position + Vector3.right * 5;
-        stack.transform.DOMove(transform.position, 0.14f).SetDelay(delay);
+        stack.transform.SetParent(this.transform);
+        stack.transform.position = transform.position + transform.right * 5;
+        stack.transform.DOLocalMove(Vector3.zero, 0.14f).SetDelay(delay);
         this.stack = stack;
     }
     public void SetDesk(Desk desk)

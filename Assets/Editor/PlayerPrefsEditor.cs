@@ -20,7 +20,7 @@ public class PlayerPrefsEditor : Editor
         }
         if (GUILayout.Button("Debug Current Level"))
         {
-            Debug.Log("Current Level Is " + levelData.LevelNo);
+            Debug.Log("Current Level Index Is " + levelData.LevelNo);
         }
         if (GUILayout.Button("Add Skills"))
         {
@@ -33,6 +33,10 @@ public class PlayerPrefsEditor : Editor
             levelData.ClearSkillCount = 0;
             levelData.MoveSkillCount = 0;
             levelData.RefreshDeskCount = 0;
+        }
+        if (GUILayout.Button("Reset LevelNO"))
+        {
+            levelData.LevelNo = 0;
         }
     }
 }

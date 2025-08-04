@@ -9,6 +9,8 @@ public class Desk : MonoBehaviour
     public static Desk Instance;
     public DeskSlot left,right,middle;
     public DeskOptions deskOptions;
+    [SerializeField] private GameObject deskUIPos;
+    public LayerMask planeLayer;
     public void Awake()
     {
         Instance = this;
@@ -39,15 +41,27 @@ public class Desk : MonoBehaviour
     }
     public void ClearDeskAnimated(Action onComplete)
     {
+        SFXManager.Instance.PlayClipOneShot(AudioEnums.ClearDesk);
         left.ClearSlotAnimated(()=> middle.ClearSlotAnimated(()=> right.ClearSlotAnimated(() => onComplete?.Invoke())));
         
     }
     public void ClearDesk()
     {
+       
         left.ClearSlot();
         middle.ClearSlot();
         right.ClearSlot();
     }
+    //public void SetDeskPosition()
+    //{
+    //    Ray ray = new Ray( deskUIPos.transform.position,Camera.main.transform.forward);
+    //    RaycastHit hit;
+    //    if (Physics.Raycast(ray, out hit,15,planeLayer))
+    //    {
+    //        gameObject.transform.position = hit.point;
+            
+    //    }
+    //}
     public void FillDesk()
     {
         

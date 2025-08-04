@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class DraggableStack : MonoBehaviour,IPoolable
 {
@@ -11,6 +12,7 @@ public class DraggableStack : MonoBehaviour,IPoolable
     {
         
     }
+    
     public void PushHexagon(Hexagon hexagon)
     {
         hexagon.MoveTo(transform.position + Vector3.up * stackHeight);
@@ -46,14 +48,21 @@ public class DraggableStack : MonoBehaviour,IPoolable
         PoolManager.Instance.ReturnItem(ItemType.Draggable, this);
         slot.OnDrop();
     }
+
     public void Drag(Vector3 pos)
     {
         transform.position = pos;
         transform.localScale = Vector3.one;
     }
+
     public void DragAnimated(Vector3 pos)
     {
-        transform.position = Vector3.Lerp(transform.position, pos, 0.15f*Time.deltaTime*60);
+        transform.position = Vector3.Lerp(transform.position, pos, 0.3f*Time.deltaTime*60);
+    }
+    
+    public void MoveTo(Vector3 position)
+    {
+        transform.DOMove(position, 0.1f);
     }
     public void OnSpawn()
     {

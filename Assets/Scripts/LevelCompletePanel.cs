@@ -14,4 +14,9 @@ public class LevelCompletePanel : UIPanelTemplate
     {
         LevelManager.Instance.LoadNextLevel();
     }
+    public override void ShowPanel()
+    {
+        base.ShowPanel();
+
+    }
 }

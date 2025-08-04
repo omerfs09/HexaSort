@@ -13,11 +13,17 @@ public class EditorTest : Editor
         // Hedef script referansý
         LevelData levelData = (LevelData)target;
 
-        // Buton
-        if (GUILayout.Button("Ortala"))
+        if (GUILayout.Button("Center"))
         {
-            levelData.startPos = (-(float)(levelData.collums-1) / 2) * new Vector3(1.5f, 0, -0.866f)*GameConstants.HEXAGON_R + (-(float)(levelData.rows-1) / 2) * new Vector3(0, 0, -1.73f) * GameConstants.HEXAGON_R; 
-            Debug.Log(levelData.rows);
+            Vector3 sum = new Vector3(0, 0, 0);
+            for (int i = 0; i < levelData.collums; i++)
+            {
+                for (int j = 0; j < levelData.rows; j++)
+                {
+                    sum = sum +GameConstants.HexPosition(i, j);
+                }
+            }
+            levelData.startPos = -sum * (1 / (((float)levelData.collums * (float)levelData.rows)));
         }
     }
 }

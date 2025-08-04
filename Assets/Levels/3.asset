@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1609fb6d59a658e47aee1994ad0ccb03, type: 3}
   m_Name: 3
   m_EditorClassIdentifier: 
-  rows: 6
-  collums: 6
+  rows: 4
+  collums: 4
   startPos: {x: -1.5749999, y: -0, z: 2.7257998}
   cameraSize: 5
   deskPos: {x: 0, y: 0, z: -2.75}
   deskOptions:
     colors: 010000000200000003000000
-    rareColors: 00000000
-    rarestColors: 00000000
+    rareColors: 020000000400000005000000
+    rarestColors: 06000000
     targetMoveCount1: 10
     targetMoveCount2: 20
   levelName: 3

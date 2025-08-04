@@ -20,7 +20,7 @@ MonoBehaviour:
   deskOptions:
     colors: 010000000200000003000000
     rareColors: 00000000
-    rarestColors: 00000000
+    rarestColors: 07000000
     targetMoveCount1: 10
     targetMoveCount2: 20
   levelName: 6

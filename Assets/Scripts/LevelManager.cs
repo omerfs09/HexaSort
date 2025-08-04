@@ -28,6 +28,11 @@ public class LevelManager : MonoBehaviour
         get => PlayerPrefs.GetInt("RefreshDesk",0);
         set => PlayerPrefs.SetInt("RefreshDesk", value);
     }
+    public int GoldCount
+    {
+        get => PlayerPrefs.GetInt("Gold", 10000);
+        set => PlayerPrefs.SetInt("Gold", value);
+    }
     public int LevelNo
     {
         get => PlayerPrefs.GetInt("Level", 0);
@@ -132,6 +137,7 @@ public class LevelManager : MonoBehaviour
     }
     public void LoadLevel(LevelData levelData)
     {
+        GameController.Instance.ChangeControlState(ControlState.DragAndDrop);
         currentLevel = levelData;
         levelNameTitle.text = "Level " + levelData.levelName;
         desk.deskOptions = levelData.deskOptions;
@@ -141,7 +147,7 @@ public class LevelManager : MonoBehaviour
         for (int j = 0; j < levelData.rows; j++)
         {
             Camera.main.orthographicSize = levelData.cameraSize;
-            Vector3 rowStartPos = startPos;
+            
             
             for (int i = 0; i < levelData.collums; i++)
             {
@@ -150,11 +156,11 @@ public class LevelManager : MonoBehaviour
                 
                 HexagonSlot slot = (HexagonSlot)PoolManager.Instance.GetItem(ItemType.HexagonSlot);
                 slot.transform.parent = hexagonSlotParent.transform;
-                slot.transform.position = (rowStartPos);
+                slot.transform.position = (startPos + GameConstants.HexPosition(i,j));
                 GameStats.Instance.AddSlot(slot);
                 slotList.Add(slot);
                 
-                rowStartPos = NextRightHexagon(rowStartPos);
+                
                 if(i % 2  == 1)
                 {
                     Vector2Int point = slotPoint + new Vector2Int(-1, 0);
@@ -193,7 +199,7 @@ public class LevelManager : MonoBehaviour
 
 
             }
-            startPos = NextDownHexagon(startPos);
+            
         }
         for (int x = 0; x < adjacency.GetLength(0); x++) // satýrlar
         {
@@ -228,6 +234,7 @@ public class LevelManager : MonoBehaviour
         this.slots = slotList;
         UIManager.ShowMainPanel();
         GameStats.Instance.SetProggressAim(levelData.progressAim);
+        //desk.SetDeskPosition();
 
         int vectorToIndex(Vector2Int vector2Int)
         {

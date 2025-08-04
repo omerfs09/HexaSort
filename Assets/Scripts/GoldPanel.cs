@@ -8,11 +8,18 @@ public class GoldPanel : UIPanelTemplate
 {
     [SerializeField]private TextMeshProUGUI goldTMP;
     [SerializeField]private GameObject goldSprite;
-    
+    void Start()
+    {
+        UpdateTexts();    
+    }
     public void ChangeGold(int newValue)
     {
         goldTMP.text = newValue.ToString();
         ChangeGoldAnimation();
+    }
+    public void UpdateTexts()
+    {
+        goldTMP.text =  LevelManager.Instance.GoldCount.ToString();
     }
     public void ChangeGoldAnimation()
     {
