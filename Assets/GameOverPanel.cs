@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GameOverPanel : UIPanelTemplate
 {
-    public Button rePlayButton,mainMenuButton;
+    [SerializeField]private Button rePlayButton,mainMenuButton;
     private void Start()
     {
         rePlayButton.onClick.AddListener(() => RePlayButtonOnClick());

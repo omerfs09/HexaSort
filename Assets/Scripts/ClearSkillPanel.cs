@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class ClearSkillPanel : UIPanelTemplate
 {
     
-    public Button cancelButton;
-    Animator animator;
+    [SerializeField] private Button cancelButton;
+    private Animator animator;
     public override void Awake()
     {
         base.Awake();

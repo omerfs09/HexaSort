@@ -36,7 +36,7 @@ public class Hexagon : MonoBehaviour,IPoolable
 
     public void OnDespawn()
     {
-        
+        gameObject.transform.SetParent(PoolManager.Instance.transform);
     }
 }
 public enum Colors

@@ -6,8 +6,8 @@ using TMPro;
 
 public class SkillPanel : UIPanelTemplate
 {
-    public Button clearSkillButton,moveSkillButton,refreshDeskButton;
-    public TextMeshProUGUI clearSkillTMP, moveSkillTMP, refreshDeskTMP;
+    [SerializeField] private Button clearSkillButton,moveSkillButton,refreshDeskButton;
+    [SerializeField] private TextMeshProUGUI clearSkillTMP, moveSkillTMP, refreshDeskTMP;
     
     void Start()
     {

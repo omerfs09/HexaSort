@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class MoveSkillPanel : UIPanelTemplate
 {
-    public Button cancelButton;
+    [SerializeField] private Button cancelButton;
     private Animator animator;
     public override void Awake()
     {

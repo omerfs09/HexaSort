@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour
     Vector3 initialPos;
     Vector3 previousMousePos;
     float cameraR;
+    [SerializeField] private GameObject slotsParent;
     void Awake()
     {
         
@@ -54,9 +55,11 @@ public class GameController : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
+
             controlState = ControlState.RotateCamera;
             Vector3 dif = Input.mousePosition - previousMousePos;
-           
+
+            //slotsParent.transform.Rotate(Vector3.up,dif.x*15);
             mainCamera.transform.position = Quaternion.AngleAxis(dif.x, Vector3.up) * mainCamera.transform.position;
             mainCamera.transform.forward = - mainCamera.transform.position;
         }
@@ -184,7 +187,7 @@ public class GameController : MonoBehaviour
                     draggable1 = draggableStack;
                     draggable1.Drag(DragPoint());
                     List<Hexagon> hexagons = new();
-                    while (slot.stack.Count > 0)
+                    while (slot.GetStack().Count > 0)
                     {
                         Hexagon hexagon = slot.PopObject();
                         hexagons.Add(hexagon);

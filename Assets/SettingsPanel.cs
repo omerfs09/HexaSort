@@ -5,8 +5,8 @@ using UnityEngine.UI;
 
 public class SettingsPanel : UIPanelTemplate
 {
-    public Button settingsButton;
-    public Button soundButton;
+    [SerializeField] private Button settingsButton;
+    [SerializeField] private Button soundButton;
     public override void Awake()
     {
         base.Awake();

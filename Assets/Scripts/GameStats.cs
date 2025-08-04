@@ -7,9 +7,9 @@ public class GameStats : MonoBehaviour
 {
     public static GameStats Instance;
     public int moves;
-    Dictionary<Colors, int> numberOfColorsDict = new();
-    List<HexagonSlot> slots = new();
-    Dictionary<Colors, int> topColors = new();
+    private Dictionary<Colors, int> numberOfColorsDict = new();
+    private List<HexagonSlot> slots = new();
+    private Dictionary<Colors, int> topColors = new();
     private float progress = 0;
     private float progressAim = 100;
     public void ResetStats()

@@ -7,11 +7,11 @@ public class LevelManager : MonoBehaviour
 {
     public static LevelManager Instance;
     float HEXAGON_R = GameConstants.HEXAGON_R;
-    public List< LevelData> levelDatas;
-    public List<HexagonSlot> slots;
-    public Desk desk;
-    public GameObject hexagonSlotParent;
-    public TextMeshProUGUI levelNameTitle;
+    [SerializeField]private List< LevelData> levelDatas;
+    private List<HexagonSlot> slots;
+    [SerializeField]private Desk desk;
+    [SerializeField]private GameObject hexagonSlotParent;
+    [SerializeField]private TextMeshProUGUI levelNameTitle;
     LevelData currentLevel;
     public int ClearSkillCount
     {
@@ -63,7 +63,7 @@ public class LevelManager : MonoBehaviour
     {
         foreach (HexagonSlot hexSlot in slots)
         {
-            foreach(Hexagon hex in hexSlot.stack)
+            foreach(Hexagon hex in hexSlot.GetStack())
             {
                 PoolManager.Instance.ReturnItem(ItemType.Hexagon,hex);
             }

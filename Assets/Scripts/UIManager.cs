@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public static Dictionary<PanelType, UIPanelTemplate> panelsDict = new Dictionary<PanelType, UIPanelTemplate>();
+    private static Dictionary<PanelType, UIPanelTemplate> panelsDict = new Dictionary<PanelType, UIPanelTemplate>();
     
     public static void ShowPanel(PanelType type)
     {
@@ -69,6 +69,7 @@ public class UIManager : MonoBehaviour
         HideAllPanels();
         ShowPanel(PanelType.BoostersPanel);
         ShowPanel(PanelType.ProgressBar);
+        ShowPanel(PanelType.GoldPanel);
     }
     public static void ShowLevelCompletePanel()
     {

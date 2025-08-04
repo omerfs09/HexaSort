@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Settings : MonoBehaviour
 {
-    
-   
     public static int GetSetting(SettingsEnum settingsEnum)
     {
         return PlayerPrefs.GetInt(settingsEnum.ToString(),1);

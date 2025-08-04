@@ -34,4 +34,5 @@ public enum PanelType
     GameOverPanel,
     ProgressBar,
     LevelCompletePanel,
+    GoldPanel,
 }

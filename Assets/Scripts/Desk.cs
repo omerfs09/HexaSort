@@ -9,7 +9,6 @@ public class Desk : MonoBehaviour
     public static Desk Instance;
     public DeskSlot left,right,middle;
     public DeskOptions deskOptions;
-    public List<Colors> availableColors;
     public void Awake()
     {
         Instance = this;

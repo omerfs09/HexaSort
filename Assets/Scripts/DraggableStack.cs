@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DraggableStack : MonoBehaviour,IPoolable
 {
-    public List<Hexagon> hexaList = new();
-    float STACK_SPACE = GameConstants.STACK_SPACE;
+    private List<Hexagon> hexaList = new();
+    static float STACK_SPACE = GameConstants.STACK_SPACE;
     float stackHeight = GameConstants.STACK_SPACE;
     void Start()
     {

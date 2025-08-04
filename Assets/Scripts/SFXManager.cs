@@ -34,29 +34,8 @@ public class SFXManager : MonoBehaviour
 
     private void Start()
     {
-        //PlayBGSound();
+        
     }
-
-    //public void PlayTickTockSound()
-    //{
-    //    ticktockSound.Play();
-    //}
-
-    //public void StopTickTockSound()
-    //{
-    //    ticktockSound.Stop();
-    //}
-
-    //public void PlayBGSound()
-    //{
-
-    //    if (!bgSound.gameObject.activeInHierarchy) bgSound.gameObject.SetActive(true);
-    //}
-
-    //public void StopBGSound()
-    //{
-    //    bgSound.gameObject.SetActive(false);
-    //}
 
     public void PlayClipOneShot(AudioEnums soundName, float volume = 1)
     {

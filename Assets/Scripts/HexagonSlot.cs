@@ -7,12 +7,11 @@ using System;
 
 public class HexagonSlot : MonoBehaviour, IPoolable
 {
-    public Stack<Hexagon> stack = new Stack<Hexagon>();
-    float STACK_SPACE = GameConstants.STACK_SPACE;
-    float stackHeight = GameConstants.STACK_SPACE;
+    private Stack<Hexagon> stack = new Stack<Hexagon>();
+    static float STACK_SPACE = GameConstants.STACK_SPACE;
+    private float stackHeight = GameConstants.STACK_SPACE;
     public List<HexagonSlot> connectedSlots;
     public bool isAvailable = true;
-    public int colorSeries = 0;
     public static bool addToSlotEnabled = true;
     void Start()
     {
@@ -25,10 +24,11 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         
     }
 
-    public void GetStackPosition()
+    public Stack<Hexagon> GetStack()
     {
-
+        return stack;
     }
+    
     public void OnDrop()
     {
 
@@ -344,7 +344,6 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         connectedSlots.Clear();
         stackHeight = STACK_SPACE;
         isAvailable = true;
-        colorSeries = 0;
         addToSlotEnabled = true;
     }
 }
