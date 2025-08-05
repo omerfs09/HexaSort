@@ -52,16 +52,10 @@ public class Desk : MonoBehaviour
         middle.ClearSlot();
         right.ClearSlot();
     }
-    //public void SetDeskPosition()
-    //{
-    //    Ray ray = new Ray( deskUIPos.transform.position,Camera.main.transform.forward);
-    //    RaycastHit hit;
-    //    if (Physics.Raycast(ray, out hit,15,planeLayer))
-    //    {
-    //        gameObject.transform.position = hit.point;
-            
-    //    }
-    //}
+    public void SetDeskPosition()
+    {
+        gameObject.transform.position = deskUIPos.transform.position+ Camera.main.transform.forward*1.1f;
+    }
     public void FillDesk()
     {
         

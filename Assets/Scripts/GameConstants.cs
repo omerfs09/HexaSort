@@ -14,15 +14,16 @@ public class GameConstants : MonoBehaviour
     {
         
     }
-    public static Vector3 HexPosition(int col,int row)
+    public static Vector3 HexPosition(int col,int row,float r = HEXAGON_R)
     {
+        
         if(col % 2 == 0)
         {
-            return Vector3.right*col* HEXAGON_R * 1.5f + Vector3.forward* -1.73f*row*HEXAGON_R;
+            return Vector3.right*col* r * 1.5f + Vector3.forward* -1.73f*row*r;
         }
         else
         {
-            return Vector3.right * col * HEXAGON_R * 1.5f + Vector3.forward * -1.73f * row*HEXAGON_R - Vector3.forward * HEXAGON_R * 0.866f;
+            return Vector3.right * col * r * 1.5f + Vector3.forward * -1.73f * row*r - Vector3.forward * r * 0.866f;
         }
     } 
 }

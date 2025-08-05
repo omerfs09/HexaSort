@@ -13,13 +13,13 @@ public class ToggleGridData : ScriptableObject
         gridValues = new bool[width * height];
     }
 
-    public bool Get(int x, int y)
+    public bool Get(int col, int row)
     {
-        return gridValues[y * width + x];
+        return gridValues[row * width + col];
     }
 
-    public void Set(int x, int y, bool value)
+    public void Set(int col, int row, bool value)
     {
-        gridValues[y * width + x] = value;
+        gridValues[row * width + col] = value;
     }
 }

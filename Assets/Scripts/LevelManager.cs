@@ -73,6 +73,7 @@ public class LevelManager : MonoBehaviour
     {
         foreach (HexagonSlot hexSlot in slots)
         {
+            if (hexSlot == null) continue;
             foreach(Hexagon hex in hexSlot.GetStack())
             {
                 PoolManager.Instance.ReturnItem(ItemType.Hexagon,hex);
@@ -81,6 +82,7 @@ public class LevelManager : MonoBehaviour
         }
         desk.ClearDesk();
         desk.deskOptions = null;
+        slots.Clear();
         GameStats.Instance.ResetStats();
     }
     public void ReloadLevel()
@@ -98,7 +100,9 @@ public class LevelManager : MonoBehaviour
     {
         
         if (i < levelDatas.Count || i < 0)
-            LoadLevel(levelDatas[i]);
+        {
+          LoadLevel(levelDatas[i]);
+        }
         else Debug.Log("EndOfLevels");
                 
     }
@@ -140,8 +144,119 @@ public class LevelManager : MonoBehaviour
             return new Vector3(x, 0, z);
         }
     }
+    public void LoadCustomLevel(LevelData levelData)
+    {
+        GameController.Instance.ChangeControlState(ControlState.DragAndDrop);
+        currentLevel = levelData;
+        levelNameTitle.text = "Level " + levelData.levelName;
+        desk.deskOptions = levelData.deskOptions;
+        List<HexagonSlot> slotList = new();
+        bool[,] adjacency = new bool[levelData.rows * levelData.collums, levelData.rows * levelData.collums];
+        Vector3 startPos = levelData.startPos;
+        Camera.main.orthographicSize = levelData.cameraSize;
+
+        for (int j = 0; j < levelData.rows; j++)
+        {
+            for (int i = 0; i < levelData.collums; i++)
+            {
+                if (!levelData.gridData.Get(i, j))
+                {
+                    slotList.Add(null);
+                    continue;
+                }
+                int slotIndex = levelData.collums * j + i; ;
+                Vector2Int slotPoint = new Vector2Int(j, i);
+                HexagonSlot slot = (HexagonSlot)PoolManager.Instance.GetItem(ItemType.HexagonSlot);
+                slot.transform.parent = hexagonSlotParent.transform;
+                slot.transform.position = (startPos + GameConstants.HexPosition(i, j));
+                GameStats.Instance.AddSlot(slot);
+                slotList.Add(slot);
+                if (i % 2 == 1)
+                {
+                    Vector2Int point = slotPoint + new Vector2Int(-1, 0);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(0, 1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(1, 1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(1, 0);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(1, -1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(0, -1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+
+
+                }
+                else
+                {
+                    Vector2Int point = slotPoint + new Vector2Int(-1, 0);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(-1, 1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(0, 1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(1, 0);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(0, -1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+                    point = slotPoint + new Vector2Int(-1, -1);
+                    if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
+
+                }
+            }
+
+        }
+        for (int x = 0; x < adjacency.GetLength(0); x++) // satýrlar
+        {
+            for (int y = 0; y < adjacency.GetLength(1); y++) // sütunlar
+            {
+                if (adjacency[x, y] && slotList[x] != null && slotList[y] != null)
+                    slotList[x].connectedSlots.Add(slotList[y]);
+
+            }
+        }
+
+
+        Camera.main.transform.position = cameraStartPosition;
+        Camera.main.transform.rotation = cameraStartRotation;
+        desk.SetDeskPosition();
+
+        DraggableStack draggable = (DraggableStack)PoolManager.Instance.GetItem(ItemType.Draggable);
+        List<Colors> startColors = new();
+        startColors.Add(Colors.Red);
+        startColors.Add(Colors.Red);
+        startColors.Add(Colors.Blue);
+        draggable.PushList(startColors);
+        draggable.Drag(desk.middle.transform.position);
+        desk.middle.FillSlot(draggable);
+        this.slots = slotList;
+
+        UIManager.ShowMainPanel();
+        GameStats.Instance.SetProggressAim(levelData.progressAim);
+        int vectorToIndex(Vector2Int vector2Int)
+        {
+            return vector2Int.x * levelData.collums + vector2Int.y;
+        }
+        bool isInBounds(Vector2Int point)
+        {
+            
+            
+            if (point.x >= 0 && point.x < levelData.rows && point.y >= 0 && point.y < levelData.collums)
+            {
+                if (levelData.gridData.Get(point.y, point.x)) return true;
+                else
+                return false;
+            }
+            else return false;
+        }
+    }
     public void LoadLevel(LevelData levelData)
     {
+        if (levelData.gridData != null) {
+            LoadCustomLevel(levelData);
+            return;
+        }
         GameController.Instance.ChangeControlState(ControlState.DragAndDrop);
         currentLevel = levelData;
         levelNameTitle.text = "Level " + levelData.levelName;
@@ -211,7 +326,7 @@ public class LevelManager : MonoBehaviour
 
         Camera.main.transform.position = cameraStartPosition;
         Camera.main.transform.rotation = cameraStartRotation;
-        desk.transform.position = levelData.deskPos;
+        desk.SetDeskPosition();
 
         DraggableStack draggable = (DraggableStack)PoolManager.Instance.GetItem(ItemType.Draggable);
         List<Colors> startColors = new();

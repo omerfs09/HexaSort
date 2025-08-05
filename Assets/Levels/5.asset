@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1609fb6d59a658e47aee1994ad0ccb03, type: 3}
   m_Name: 5
   m_EditorClassIdentifier: 
-  rows: 3
-  collums: 3
-  startPos: {x: -0.63, y: -0, z: 0.84784}
-  cameraSize: 5
-  deskPos: {x: 0, y: 0, z: -2.75}
+  rows: 5
+  collums: 5
+  startPos: {x: -1.2600001, y: -0, z: 1.5986879}
+  cameraSize: 4.479
+  deskPos: {x: -0, y: -0, z: -3.6329997}
   deskOptions:
     colors: 010000000200000003000000
     rareColors: 00000000
@@ -24,4 +24,5 @@ MonoBehaviour:
     targetMoveCount1: 10
     targetMoveCount2: 20
   levelName: 5
-  progressAim: 100
+  progressAim: 10
+  gridData: {fileID: 11400000, guid: b73d31f82eae59d428e6425452fd0f34, type: 2}

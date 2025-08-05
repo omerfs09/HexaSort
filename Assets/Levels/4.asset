@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rows: 6
   collums: 6
-  startPos: {x: -1.5749999, y: -0, z: 2.7257998}
-  cameraSize: 5
-  deskPos: {x: 0, y: 0, z: -2.75}
+  startPos: {x: -1.5750004, y: -0, z: 1.9983602}
+  cameraSize: 4.8948
+  deskPos: {x: -0, y: -0, z: -4.3596}
   deskOptions:
     colors: 010000000200000003000000
     rareColors: 00000000
@@ -24,4 +24,5 @@ MonoBehaviour:
     targetMoveCount1: 10
     targetMoveCount2: 20
   levelName: 4
-  progressAim: 100
+  progressAim: 10
+  gridData: {fileID: 0}

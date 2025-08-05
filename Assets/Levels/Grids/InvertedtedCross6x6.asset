@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f233fac76a4b67f479d381c1d1ee3755, type: 3}
-  m_Name: New Toggle Grid Data
+  m_Name: InvertedtedCross6x6
   m_EditorClassIdentifier: 
-  width: 4
-  height: 4
-  gridValues: 01010000010100000101000001010000
+  width: 6
+  height: 6
+  gridValues: 010100000101010100000101010000000100000100000001010100000101010100000101

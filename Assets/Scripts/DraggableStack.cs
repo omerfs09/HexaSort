@@ -44,6 +44,7 @@ public class DraggableStack : MonoBehaviour,IPoolable
             item.transform.SetParent(PoolManager.Instance.transform);
             item.SetGetShadows(true);
             slot.PushObject(item);
+            item.transform.rotation = slot.transform.rotation;
             GameStats.Instance.AddColor(item.color, 1);
         }
         hexaList.Clear();

@@ -15,6 +15,7 @@ public class GameController : MonoBehaviour
     Vector3 previousMousePos;
     float cameraR;
     [SerializeField] private GameObject slotsParent;
+    private Vector3 cameraStartPoint;
     void Awake()
     {
         
@@ -22,6 +23,7 @@ public class GameController : MonoBehaviour
         mainCamera = Camera.main;
         cameraR = mainCamera.transform.position.magnitude;
         startCameraSize = mainCamera.orthographicSize;
+        cameraStartPoint = mainCamera.transform.position;
     }
     DraggableStack currentDraggable;
     DeskSlot currentDeskSlot;
@@ -55,17 +57,17 @@ public class GameController : MonoBehaviour
         
         previousMousePos = Input.mousePosition;
     }
+    float angleZ = -90;
     public void RotateCamera()
     {
         if (Input.GetMouseButton(0))
         {
-           
             controlState = ControlState.RotateCamera;
             Vector3 dif = Input.mousePosition - previousMousePos;
-
-            //slotsParent.transform.Rotate(Vector3.up,dif.x*5*Time.deltaTime*60);
-            mainCamera.transform.position = Quaternion.AngleAxis(dif.x, Vector3.up) * mainCamera.transform.position;
-            mainCamera.transform.forward = - mainCamera.transform.position;
+            angleZ -= dif.x*Time.deltaTime*60*0.3f;
+            float r = new Vector3(0, -cameraStartPoint.z, 0).magnitude;
+            mainCamera.transform.position = new Vector3(Mathf.Cos(angleZ*Mathf.Deg2Rad)*r, cameraStartPoint.y, Mathf.Sin(angleZ * Mathf.Deg2Rad) *r);
+            mainCamera.transform.rotation = Quaternion.Euler(new Vector3(60,270-angleZ,0));
             
         }
         else
