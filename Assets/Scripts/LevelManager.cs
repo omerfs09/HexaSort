@@ -42,14 +42,10 @@ public class LevelManager : MonoBehaviour
             PlayerPrefs.SetInt("Level", value);
         }
     }
-    private Vector3 cameraStartPosition;
-    private Quaternion cameraStartRotation;
+    
 
     void Awake()
     {
-        cameraStartPosition = Camera.main.transform.position;
-        cameraStartRotation = Camera.main.transform.rotation;
-
         Instance = this;
         Application.targetFrameRate = 60;
     }
@@ -84,6 +80,8 @@ public class LevelManager : MonoBehaviour
         desk.deskOptions = null;
         slots.Clear();
         GameStats.Instance.ResetStats();
+        GameController.Instance.ResetCameraRotation();
+        
     }
     public void ReloadLevel()
     {
@@ -216,10 +214,6 @@ public class LevelManager : MonoBehaviour
 
             }
         }
-
-
-        Camera.main.transform.position = cameraStartPosition;
-        Camera.main.transform.rotation = cameraStartRotation;
         desk.SetDeskPosition();
 
         DraggableStack draggable = (DraggableStack)PoolManager.Instance.GetItem(ItemType.Draggable);
@@ -322,10 +316,6 @@ public class LevelManager : MonoBehaviour
                 
             }
         }
-        
-
-        Camera.main.transform.position = cameraStartPosition;
-        Camera.main.transform.rotation = cameraStartRotation;
         desk.SetDeskPosition();
 
         DraggableStack draggable = (DraggableStack)PoolManager.Instance.GetItem(ItemType.Draggable);

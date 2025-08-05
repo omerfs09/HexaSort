@@ -27,22 +27,21 @@ public class SkillPanel : UIPanelTemplate
         else{
             if(LevelManager.Instance.GoldCount >= GameConstants.CLEARSKILL_PRICE)
             {
-                LevelManager.Instance.GoldCount -= GameConstants.CLEARSKILL_PRICE;   
+                LevelManager.Instance.GoldCount -= GameConstants.CLEARSKILL_PRICE;
+                LevelManager.Instance.ClearSkillCount++;
                 GoldPanel panel = (GoldPanel)UIManager.GetPanel(PanelType.GoldPanel);
                 panel.UpdateTexts();
-                LevelManager.Instance.ClearSkillCount++;
                 UseSkill();
             }
             else
             {
-
+                UIManager.ShowBuyGoldPanel();
             }
         }
         void UseSkill()
         {
             GameController.Instance.ChangeControlState(ControlState.ClearSkill);
             UIManager.ShowClearSkillPanel();
-            LevelManager.Instance.ClearSkillCount--;
             UpdateTexts();
         }
     }
@@ -59,15 +58,15 @@ public class SkillPanel : UIPanelTemplate
             if (LevelManager.Instance.GoldCount >= GameConstants.MOVESKILL_PRICE)
             {
                 LevelManager.Instance.GoldCount -= GameConstants.MOVESKILL_PRICE;
+                LevelManager.Instance.MoveSkillCount++;
                 GoldPanel panel = (GoldPanel)UIManager.GetPanel(PanelType.GoldPanel);
                 panel.UpdateTexts();
-                LevelManager.Instance.MoveSkillCount++;
-
                 UseSkill();
 
             }
             else
             {
+                UIManager.ShowBuyGoldPanel();
 
             }
         }
@@ -75,7 +74,6 @@ public class SkillPanel : UIPanelTemplate
         {
             GameController.Instance.ChangeControlState(ControlState.MoveSkill);
             UIManager.ShowMoveSkillPanel();
-            LevelManager.Instance.MoveSkillCount--;
             UpdateTexts();
         }
     }
@@ -99,6 +97,7 @@ public class SkillPanel : UIPanelTemplate
             }
             else
             {
+                UIManager.ShowBuyGoldPanel();
 
             }
         }

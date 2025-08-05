@@ -7,11 +7,13 @@ public class SettingsPanel : UIPanelTemplate
 {
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button soundButton;
+    [SerializeField] private Button hapticButton;
     public override void Awake()
     {
         base.Awake();
         settingsButton.onClick.AddListener(() => OpenClose());
         soundButton.onClick.AddListener(() => SoundButtonOnClick());
+        hapticButton.onClick.AddListener(() => HapticButtonOnClick());
     }
     public override void HidePanel()
     {
@@ -36,6 +38,11 @@ public class SettingsPanel : UIPanelTemplate
     public void SoundButtonOnClick() {
         if (Settings.GetSetting(SettingsEnum.SOUND) > 0) Settings.SetSetting(SettingsEnum.SOUND,0);
         else Settings.SetSetting(SettingsEnum.SOUND, 1);
+    }
+    public void HapticButtonOnClick()
+    {
+        if (Settings.GetSetting(SettingsEnum.VIBRATION) > 0) Settings.SetSetting(SettingsEnum.VIBRATION, 0);
+        else Settings.SetSetting(SettingsEnum.VIBRATION, 1);
     }
     void Start()
     {

@@ -80,4 +80,20 @@ public class UIManager : MonoBehaviour
         HideAllPanels();
         ShowPanel(PanelType.LevelCompletePanel);
     }
+    public static void UpdateSkills()
+    {
+        SkillPanel panel = (SkillPanel)panelsDict[PanelType.BoostersPanel];
+        panel.UpdateTexts();
+
+    }
+    public static void HideBuyGoldPanel()
+    {
+        HidePanel(PanelType.BuyGoldPanel);
+        ShowMainPanel();
+    }
+    public static void ShowBuyGoldPanel()
+    {
+        HideAllPanels();
+        ShowPanel(PanelType.BuyGoldPanel);
+    }
 }

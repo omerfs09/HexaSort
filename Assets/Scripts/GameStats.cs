@@ -70,6 +70,7 @@ public class GameStats : MonoBehaviour
             GameController.Instance.ChangeControlState(ControlState.InActive);
             UIManager.HideAllPanels();
             UIManager.ShowPanel(PanelType.GameOverPanel);
+            SFXManager.Instance.HapticHigh();
             Debug.LogWarning("Game Over!!!!");
         }
     }
@@ -79,6 +80,7 @@ public class GameStats : MonoBehaviour
         {
             UIManager.ShowLevelCompletePanel();
             GameController.Instance.ChangeControlState(ControlState.InActive);
+            SFXManager.Instance.HapticMedium();
             progressAim = float.MaxValue;
             return true;
         }

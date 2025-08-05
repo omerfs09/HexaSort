@@ -136,7 +136,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             Hexagon hexagon = stack.Pop();
             other.PushObject(hexagon, false);
             stackHeight -= GameConstants.STACK_SPACE;
-            
+            SFXManager.Instance.HapticLow();
             hexagon.transform.DOJump(other.transform.position + (other.stackHeight - STACK_SPACE) * Vector3.up, 0.1f, 1, 0.15f).SetDelay(i * totalTime / colorSeries);
             Vector3 rotateDirection;
             rotateDirection = other.transform.position - hexagon.transform.position;
@@ -223,7 +223,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
                 OnAllAnimationsEnded();
                 clearedSlots = 0;
             }
-
+            SFXManager.Instance.HapticMedium();
         }
     }
     public void ClearSlotSkill()

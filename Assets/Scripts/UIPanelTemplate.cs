@@ -35,4 +35,5 @@ public enum PanelType
     ProgressBar,
     LevelCompletePanel,
     GoldPanel,
+    BuyGoldPanel,
 }

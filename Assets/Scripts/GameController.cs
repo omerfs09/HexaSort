@@ -57,6 +57,13 @@ public class GameController : MonoBehaviour
         
         previousMousePos = Input.mousePosition;
     }
+    public void ResetCameraRotation()
+    {
+        angleZ = -90;
+        mainCamera.transform.position = cameraStartPoint;
+        mainCamera.transform.rotation = Quaternion.Euler(new Vector3(60, 270 - angleZ, 0));
+        
+    }
     float angleZ = -90;
     public void RotateCamera()
     {
@@ -129,6 +136,7 @@ public class GameController : MonoBehaviour
             }
             else
             {
+                SFXManager.Instance.HapticLow();
                 SFXManager.Instance.PlayClipOneShot(AudioEnums.AddToSlot);
                 CommandController.Instance.EnqueAddToSlotCommand(new AddToSlotCommand(currentDraggable, slot, currentDeskSlot));
                 currentDraggable.transform.position = slot.transform.position;
@@ -168,10 +176,11 @@ public class GameController : MonoBehaviour
                 HexagonSlot slot = hit.collider.GetComponent<HexagonSlot>();
                 if(slot != null && !slot.IsEmpty())
                 {
-                    Debug.LogWarning("Clearing");
                     slot.ClearSlotSkill();
                     controlState = ControlState.DragAndDrop;
                     UIManager.HideClearSkillPanel();
+                    LevelManager.Instance.ClearSkillCount--;
+                    UIManager.UpdateSkills();
                 }
             }
         }
@@ -225,12 +234,15 @@ public class GameController : MonoBehaviour
                 controlState = ControlState.DragAndDrop;
                 draggable1.AddToSlot(sourceSlot);
                 draggable1 = null;
+
             }
             else
             {
                 controlState = ControlState.DragAndDrop;
                 draggable1.AddToSlot(slot);
                 draggable1 = null;
+                LevelManager.Instance.MoveSkillCount--;
+                UIManager.UpdateSkills();
 
             }
             controlState = ControlState.DragAndDrop;
