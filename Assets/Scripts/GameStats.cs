@@ -79,7 +79,7 @@ public class GameStats : MonoBehaviour
         {
             UIManager.ShowLevelCompletePanel();
             GameController.Instance.ChangeControlState(ControlState.InActive);
-
+            progressAim = float.MaxValue;
             return true;
         }
         else

@@ -16,6 +16,12 @@ public class Hexagon : MonoBehaviour,IPoolable
     {
         
     }
+    public void SetGetShadows(bool val)
+    {
+        if (!val)
+            mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+        else mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+    }
     public void SetColor(Colors colors)
     {
         mesh.material = Resources.Load<Material>("Materials/" + colors.ToString());

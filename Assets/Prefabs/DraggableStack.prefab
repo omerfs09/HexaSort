@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1012477434526241451}
   - component: {fileID: 5220313742903427936}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: DraggableStack
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,4 +44,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e45470ab796b924fa0ae0cd56d82978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hexaList: []

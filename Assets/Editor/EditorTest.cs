@@ -15,6 +15,7 @@ public class EditorTest : Editor
 
         if (GUILayout.Button("Center"))
         {
+            
             Vector3 sum = new Vector3(0, 0, 0);
             for (int i = 0; i < levelData.collums; i++)
             {
@@ -24,6 +25,8 @@ public class EditorTest : Editor
                 }
             }
             levelData.startPos = -sum * (1 / (((float)levelData.collums * (float)levelData.rows)));
+            levelData.deskPos = GameConstants.HexPosition(0,levelData.rows).z * Vector3.forward;
+            levelData.cameraSize = (GameConstants.HexPosition(levelData.collums, 0).x*0.55f + 2)*1.2f;
         }
     }
 }

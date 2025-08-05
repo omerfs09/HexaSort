@@ -20,7 +20,7 @@ public class ToggleGridEditor : Editor
 
         if (data.gridValues != null && data.gridValues.Length == data.width * data.height)
         {
-            GUILayout.Space(10);
+            GUILayout.Space(0);
             EditorGUILayout.LabelField("Toggle Grid", EditorStyles.boldLabel);
 
             for (int y = 0; y < data.height; y++)
@@ -28,14 +28,38 @@ public class ToggleGridEditor : Editor
                 
                 EditorGUILayout.BeginHorizontal();
 
-                if(y % 2 == 0) EditorGUILayout.LabelField(" ",GUILayout.MaxWidth(10));
                 for (int x = 0; x < data.width; x++)
                 {
-                    bool value = data.Get(x, y);
+                    if(x % 2 == 0)
+                    {
+                        bool value = data.Get(x, y);
 
-                    value = GUILayout.Toggle(value, "", GUILayout.Width(25), GUILayout.Height(25));
-                    data.Set(x, y, value);
+                        value = GUILayout.Toggle(value, "", GUILayout.Width(25), GUILayout.Height(25));
+                        data.Set(x, y, value);
+                    }
+                    else
+                    {
+                       EditorGUILayout.LabelField(" ", GUILayout.MaxWidth(25));
+                    }
                 }
+                EditorGUILayout.EndHorizontal();
+                GUILayout.Space(0);
+                EditorGUILayout.BeginHorizontal();
+                for (int x = 0; x < data.width; x++)
+                {
+                    if (x % 2 == 1)
+                    {
+                        bool value = data.Get(x, y);
+
+                        value = GUILayout.Toggle(value, "", GUILayout.Width(25), GUILayout.Height(25));
+                        data.Set(x, y, value);
+                    }
+                    else
+                    {
+                        EditorGUILayout.LabelField(" ", GUILayout.MaxWidth(25));
+                    }
+                }
+                
                 EditorGUILayout.EndHorizontal();
             }
         }

@@ -14,4 +14,6 @@ public class LevelData: ScriptableObject
     public DeskOptions deskOptions;
     public string levelName;
     public int progressAim;
+    [Header("*")]
+    public ToggleGridData gridData;
 }

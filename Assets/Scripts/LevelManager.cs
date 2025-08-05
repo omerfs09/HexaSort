@@ -42,14 +42,19 @@ public class LevelManager : MonoBehaviour
             PlayerPrefs.SetInt("Level", value);
         }
     }
+    private Vector3 cameraStartPosition;
+    private Quaternion cameraStartRotation;
+
     void Awake()
     {
+        cameraStartPosition = Camera.main.transform.position;
+        cameraStartRotation = Camera.main.transform.rotation;
+
         Instance = this;
         Application.targetFrameRate = 60;
     }
     void Start()
     {
-        
 
         LoadLevel(LevelNo);
     }
@@ -144,23 +149,19 @@ public class LevelManager : MonoBehaviour
         List<HexagonSlot> slotList = new();
         bool[,] adjacency = new bool[levelData.rows * levelData.collums,levelData.rows * levelData.collums];
         Vector3 startPos = levelData.startPos;
+        Camera.main.orthographicSize = levelData.cameraSize;
+
         for (int j = 0; j < levelData.rows; j++)
         {
-            Camera.main.orthographicSize = levelData.cameraSize;
-            
-            
             for (int i = 0; i < levelData.collums; i++)
             {
                 int slotIndex = levelData.collums * j + i; ;
                 Vector2Int slotPoint = new Vector2Int(j, i);
-                
                 HexagonSlot slot = (HexagonSlot)PoolManager.Instance.GetItem(ItemType.HexagonSlot);
                 slot.transform.parent = hexagonSlotParent.transform;
                 slot.transform.position = (startPos + GameConstants.HexPosition(i,j));
                 GameStats.Instance.AddSlot(slot);
                 slotList.Add(slot);
-                
-                
                 if(i % 2  == 1)
                 {
                     Vector2Int point = slotPoint + new Vector2Int(-1, 0);
@@ -194,10 +195,6 @@ public class LevelManager : MonoBehaviour
                     if (isInBounds(point)) adjacency[slotIndex, vectorToIndex(point)] = true;
 
                 }
-
-
-
-
             }
             
         }
@@ -210,19 +207,12 @@ public class LevelManager : MonoBehaviour
                 
             }
         }
-        foreach(HexagonSlot slot in slotList)
-        {
-            
-            int numOfHexs = (int)Random.Range(0, 4);
-            //for (int i = 0; i < numOfHexs; i++)
-            //{
-            //    Hexagon hexa = (Hexagon)PoolManager.Instance.GetItem(ItemType.Hexagon);
-            //    hexa.SetColor(Colors.Blue);
-            //    slot.PushObject(hexa);
-            //}
-        }
-        desk.transform.position = levelData.deskPos;
         
+
+        Camera.main.transform.position = cameraStartPosition;
+        Camera.main.transform.rotation = cameraStartRotation;
+        desk.transform.position = levelData.deskPos;
+
         DraggableStack draggable = (DraggableStack)PoolManager.Instance.GetItem(ItemType.Draggable);
         List<Colors> startColors = new();
         startColors.Add(Colors.Red);
@@ -232,10 +222,9 @@ public class LevelManager : MonoBehaviour
         draggable.Drag(desk.middle.transform.position);
         desk.middle.FillSlot(draggable);
         this.slots = slotList;
+
         UIManager.ShowMainPanel();
         GameStats.Instance.SetProggressAim(levelData.progressAim);
-        //desk.SetDeskPosition();
-
         int vectorToIndex(Vector2Int vector2Int)
         {
             return vector2Int.x * levelData.collums + vector2Int.y;

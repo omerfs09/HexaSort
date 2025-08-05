@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f233fac76a4b67f479d381c1d1ee3755, type: 3}
   m_Name: New Toggle Grid Data
   m_EditorClassIdentifier: 
-  width: 3
-  height: 3
-  gridValues: 000000000000000000
+  width: 4
+  height: 4
+  gridValues: 01010000010100000101000001010000

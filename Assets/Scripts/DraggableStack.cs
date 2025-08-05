@@ -26,6 +26,7 @@ public class DraggableStack : MonoBehaviour,IPoolable
         {
             Hexagon hexagon = (Hexagon)PoolManager.Instance.GetItem(ItemType.Hexagon);
             hexagon.SetColor(color);
+            hexagon.SetGetShadows(false);
             PushHexagon(hexagon);
         }
     }
@@ -41,6 +42,7 @@ public class DraggableStack : MonoBehaviour,IPoolable
         foreach (Hexagon item in hexaList)
         {
             item.transform.SetParent(PoolManager.Instance.transform);
+            item.SetGetShadows(true);
             slot.PushObject(item);
             GameStats.Instance.AddColor(item.color, 1);
         }

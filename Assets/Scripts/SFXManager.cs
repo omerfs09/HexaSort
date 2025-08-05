@@ -89,4 +89,5 @@ public enum AudioEnums
     Lift,
     Pour,
     ClearDesk,
+    ClearSlot,
 }

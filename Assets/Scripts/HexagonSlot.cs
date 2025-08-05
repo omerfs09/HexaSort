@@ -211,6 +211,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         {
             yield return new WaitForSeconds(totalTime);
             ParticleSystem p = VFXManager.Instance.GetParticle(VFXEnums.ClearSlotVFX2, transform.position);
+            SFXManager.Instance.PlayClipOneShot(AudioEnums.ClearSlot);
             yield return new WaitForSeconds(0.5f);
             //CheckNeighbors(GetTopColor(),null);
             Debug.Log(clearString + i.ToString(), this);
