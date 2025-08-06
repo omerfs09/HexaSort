@@ -79,8 +79,10 @@ public class DraggableStack : MonoBehaviour,IPoolable
             PoolManager.Instance.ReturnItem(ItemType.Hexagon, item);
             item.transform.SetParent(PoolManager.Instance.transform);
         }
+        transform.SetParent(PoolManager.Instance.transform);
         hexaList.Clear();
         stackHeight = GameConstants.STACK_SPACE;
+        gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
 
     }
 }

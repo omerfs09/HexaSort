@@ -43,6 +43,7 @@ public class Hexagon : MonoBehaviour,IPoolable
     public void OnDespawn()
     {
         gameObject.transform.SetParent(PoolManager.Instance.transform);
+        gameObject.transform.localRotation = Quaternion.Euler(Vector3.zero);
     }
 }
 public enum Colors

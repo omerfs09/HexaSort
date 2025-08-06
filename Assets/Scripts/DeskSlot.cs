@@ -47,6 +47,7 @@ public class DeskSlot : MonoBehaviour
     public void FillSlotAnimated(DraggableStack stack,float delay)
     {
         stack.transform.SetParent(this.transform);
+        stack.transform.rotation = transform.rotation;
         stack.transform.position = transform.position + transform.right * 5;
         stack.transform.DOLocalMove(Vector3.zero, 0.14f).SetDelay(delay);
         this.stack = stack;
