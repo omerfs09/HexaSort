@@ -81,6 +81,7 @@ public class LevelManager : MonoBehaviour
         slots.Clear();
         GameStats.Instance.ResetStats();
         GameController.Instance.ResetCameraRotation();
+        CommandController.Instance.ClearAllQues();
         
     }
     public void ReloadLevel()

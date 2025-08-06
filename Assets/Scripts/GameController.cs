@@ -18,18 +18,14 @@ public class GameController : MonoBehaviour
     private Vector3 cameraStartPoint;
     void Awake()
     {
-        
         Instance = this;
         mainCamera = Camera.main;
         cameraR = mainCamera.transform.position.magnitude;
-        startCameraSize = mainCamera.orthographicSize;
         cameraStartPoint = mainCamera.transform.position;
     }
     DraggableStack currentDraggable;
     DeskSlot currentDeskSlot;
     ControlState controlState = ControlState.RotateCamera;
-    float startCameraSize;
-    bool rotate = false;
     // Update is called once per frame
     void Update()
     {
@@ -142,7 +138,7 @@ public class GameController : MonoBehaviour
             {
                 SFXManager.Instance.HapticLow();
                 SFXManager.Instance.PlayClipOneShot(AudioEnums.AddToSlot);
-                CommandController.Instance.EnqueAddToSlotCommand(new AddToSlotCommand(currentDraggable, slot, currentDeskSlot));
+                new AddToSlotCommand(currentDraggable, slot, currentDeskSlot).RunCommand();
                 currentDraggable.transform.position = slot.transform.position;
                 slot.transform.DOScaleX(1.2f, 0.1f);
                 slot.transform.DOScaleX(1, 0.1f).SetDelay(0.1f);

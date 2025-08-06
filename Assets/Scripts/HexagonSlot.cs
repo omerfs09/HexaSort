@@ -48,7 +48,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
                 {
                     GameStats.Instance.CheckGameOver();
                 }
-                
+                CommandController.Instance.RunOnDropQueue();
             });
             GameStats.Instance.moves++;
         }

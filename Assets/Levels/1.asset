@@ -18,11 +18,11 @@ MonoBehaviour:
   cameraSize: 4.479
   deskPos: {x: -0, y: -0, z: -3.6329997}
   deskOptions:
-    colors: 0000000001000000
-    rareColors: 03000000
+    colors: 00000000
+    rareColors: 
     rarestColors: 
     targetMoveCount1: 10
     targetMoveCount2: 20
   levelName: 1
-  progressAim: 10
+  progressAim: 100
   gridData: {fileID: 0}

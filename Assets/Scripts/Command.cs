@@ -22,6 +22,18 @@ public class ClearSlotCommand : Command
         runner.ClearSlot(runner.GetTopColor(), action);
     }
 }
+public class OnDropCommand : Command
+{
+    HexagonSlot runner;
+    public OnDropCommand(HexagonSlot runner)
+    {
+        this.runner = runner;
+    }
+    public void RunCommand()
+    {
+        runner.OnDrop();
+    }
+}
 public class AddToSlotCommand : Command
 {
     DraggableStack runner;

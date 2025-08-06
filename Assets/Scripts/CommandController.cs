@@ -7,6 +7,7 @@ public class CommandController : MonoBehaviour
     public static CommandController Instance;
     public Queue<ClearSlotCommand> clearQue = new();
     public Queue<AddToSlotCommand> addToSlotQue = new();
+    public Queue<OnDropCommand> onDropQue = new();
     void Awake()
     {
         Instance = this;
@@ -17,8 +18,7 @@ public class CommandController : MonoBehaviour
     {
         if (IsDropable())
         {
-            RunAddToSlotQue();
-            
+            RunOnDropQueue();
         }
     }
     public  bool IsDropable()
@@ -34,7 +34,6 @@ public class CommandController : MonoBehaviour
     {
         if(addToSlotQue.Count > 0)
         {
-
             addToSlotQue.Dequeue().RunCommand(); Debug.Log("QueRuned");
         }
         
@@ -48,7 +47,23 @@ public class CommandController : MonoBehaviour
         while (clearQue.Count > 0)
         {
             clearQue.Dequeue().RunCommand();
+        }   
+    }
+    public void EnqueueOnDropCommand(OnDropCommand command)
+    {
+        onDropQue.Enqueue(command);
+    }
+    public void RunOnDropQueue()
+    {
+        if(onDropQue.Count > 0)
+        {
+            onDropQue.Dequeue().RunCommand();
         }
-        
+    }
+    public void ClearAllQues()
+    {
+        clearQue.Clear();
+        addToSlotQue.Clear();
+        onDropQue.Clear();
     }
 }

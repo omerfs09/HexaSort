@@ -49,7 +49,7 @@ public class DraggableStack : MonoBehaviour,IPoolable
         }
         hexaList.Clear();
         PoolManager.Instance.ReturnItem(ItemType.Draggable, this);
-        slot.OnDrop();
+        CommandController.Instance.EnqueueOnDropCommand(new OnDropCommand(slot));
     }
 
     public void Drag(Vector3 pos)
