@@ -16,6 +16,9 @@ public class BuyMoneyPanel : UIPanelTemplate
     public void OnBuyButtonClik()
     {
         LevelManager.Instance.GoldCount += 500;
+        UIManager.UpdateSkills();
+        UIManager.UpdateGold();
+        
     }
     public void OnCancelButtonClik()
     {

@@ -26,3 +26,4 @@ MonoBehaviour:
   levelName: 5
   progressAim: 10
   gridData: {fileID: 11400000, guid: b73d31f82eae59d428e6425452fd0f34, type: 2}
+  levelGoalMessage: Reach 10 points

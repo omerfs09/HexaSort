@@ -228,6 +228,7 @@ public class LevelManager : MonoBehaviour
         this.slots = slotList;
 
         UIManager.ShowMainPanel();
+        UIManager.ShowGoalPanel(levelData.levelGoalMessage);
         GameStats.Instance.SetProggressAim(levelData.progressAim);
         int vectorToIndex(Vector2Int vector2Int)
         {
@@ -330,6 +331,7 @@ public class LevelManager : MonoBehaviour
         this.slots = slotList;
 
         UIManager.ShowMainPanel();
+        UIManager.ShowGoalPanel(levelData.levelGoalMessage);
         GameStats.Instance.SetProggressAim(levelData.progressAim);
         int vectorToIndex(Vector2Int vector2Int)
         {

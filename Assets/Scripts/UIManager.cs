@@ -22,7 +22,7 @@ public class UIManager : MonoBehaviour
     {
         foreach(PanelType panelType in panelsDict.Keys)
         {
-            panelsDict[panelType].holder.SetActive(false);
+            InstantHide(panelType);
         }
     }
     public static void RegisterPanel(PanelType panelType,UIPanelTemplate panel)
@@ -40,23 +40,37 @@ public class UIManager : MonoBehaviour
     {
         HideAllPanels();
         ShowPanel(PanelType.ClearSkillPanel);
+        ShowPanel(PanelType.FocusPanel);
     }
     public static void HideClearSkillPanel()
     {
         HidePanel(PanelType.ClearSkillPanel);
         ShowMainPanel();
+        InstantShow(PanelType.FocusPanel);
+        HidePanel(PanelType.FocusPanel);
 
     }
     public static void ShowMoveSkillPanel()
     {
         HideAllPanels();
         ShowPanel(PanelType.MoveSkillPanel);
+        ShowPanel(PanelType.FocusPanel);
     }
     public static void HideMoveSkillPanel()
     {
         HidePanel(PanelType.MoveSkillPanel);
         ShowMainPanel();
+        InstantShow(PanelType.FocusPanel);
+        HidePanel(PanelType.FocusPanel);
 
+    }
+    public static void InstantShow(PanelType panelType)
+    {
+        panelsDict[panelType].holder.SetActive(true);
+    }
+    public static void InstantHide(PanelType panelType)
+    {
+        panelsDict[panelType].holder.SetActive(false);
     }
     public static void ShowSettingsPanel()
     {
@@ -86,6 +100,12 @@ public class UIManager : MonoBehaviour
         panel.UpdateTexts();
 
     }
+    public static void UpdateGold()
+    {
+        GoldPanel panel = (GoldPanel)panelsDict[PanelType.GoldPanel];
+        panel.UpdateTexts();
+
+    }
     public static void HideBuyGoldPanel()
     {
         HidePanel(PanelType.BuyGoldPanel);
@@ -95,5 +115,15 @@ public class UIManager : MonoBehaviour
     {
         HideAllPanels();
         ShowPanel(PanelType.BuyGoldPanel);
+    }
+    public static void OnLevelLoad()
+    {
+        ShowPanel(PanelType.GoalPanel);
+    }
+    public static void ShowGoalPanel(string message)
+    {
+        GoalAnimationPanel panel =  (GoalAnimationPanel)panelsDict[PanelType.GoalPanel];
+        panel.SetMessage(message);
+        panel.ShowPanel();
     }
 }

@@ -27,9 +27,13 @@ public class GameController : MonoBehaviour
     DeskSlot currentDeskSlot;
     ControlState controlState = ControlState.RotateCamera;
     // Update is called once per frame
-    void Update()
+    public void FixedUpdate()
     {
         Rotate(0.6f);
+    }
+    void Update()
+    {
+        
             if (controlState == ControlState.RotateCamera)
             {
                 RotateCamera();              

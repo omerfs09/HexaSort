@@ -8,6 +8,8 @@ public class SettingsPanel : UIPanelTemplate
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button soundButton;
     [SerializeField] private Button hapticButton;
+    [SerializeField] private Sprite soundOnIMG, soundOffIMG;
+    [SerializeField] private Sprite hapticOnIMG, hapticOffIMG;
     public override void Awake()
     {
         base.Awake();
@@ -36,13 +38,32 @@ public class SettingsPanel : UIPanelTemplate
         }
     }
     public void SoundButtonOnClick() {
-        if (Settings.GetSetting(SettingsEnum.SOUND) > 0) Settings.SetSetting(SettingsEnum.SOUND,0);
-        else Settings.SetSetting(SettingsEnum.SOUND, 1);
+        if (Settings.GetSetting(SettingsEnum.SOUND) > 0)
+        {
+            Settings.SetSetting(SettingsEnum.SOUND, 0);
+            soundButton.image.sprite = soundOffIMG;
+        }
+        else
+        {
+            Settings.SetSetting(SettingsEnum.SOUND, 1);
+            soundButton.image.sprite = soundOnIMG;
+
+        }
     }
     public void HapticButtonOnClick()
     {
-        if (Settings.GetSetting(SettingsEnum.VIBRATION) > 0) Settings.SetSetting(SettingsEnum.VIBRATION, 0);
-        else Settings.SetSetting(SettingsEnum.VIBRATION, 1);
+        if (Settings.GetSetting(SettingsEnum.VIBRATION) > 0)
+        {
+            Settings.SetSetting(SettingsEnum.VIBRATION, 0);
+            hapticButton.image.sprite = hapticOffIMG;
+
+        }
+        else
+        {
+            Settings.SetSetting(SettingsEnum.VIBRATION, 1);
+            hapticButton.image.sprite = hapticOnIMG;
+
+        }
     }
     void Start()
     {

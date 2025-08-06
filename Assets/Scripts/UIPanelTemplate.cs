@@ -36,4 +36,6 @@ public enum PanelType
     LevelCompletePanel,
     GoldPanel,
     BuyGoldPanel,
+    GoalPanel,
+    FocusPanel,
 }

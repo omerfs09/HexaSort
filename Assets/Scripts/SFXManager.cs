@@ -101,6 +101,7 @@ public enum AudioEnums
     Pour,
     ClearDesk,
     ClearSlot,
+    ClearSkill,
 }
 public static class Vibration
 {

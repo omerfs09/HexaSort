@@ -16,4 +16,5 @@ public class LevelData: ScriptableObject
     public int progressAim;
     [Header("*")]
     public ToggleGridData gridData;
+    public string levelGoalMessage;
 }

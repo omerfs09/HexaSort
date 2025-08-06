@@ -249,6 +249,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         IEnumerator wait()
         {
             yield return new WaitForSeconds(totalTime + 0.5f);
+            SFXManager.Instance.PlayClipOneShot(AudioEnums.ClearSkill);
             //CheckNeighbors(GetTopColor(),null);
             Debug.Log(clearString + i.ToString(), this);
             isAvailable = true;
