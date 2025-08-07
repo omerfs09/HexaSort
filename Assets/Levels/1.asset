@@ -18,7 +18,7 @@ MonoBehaviour:
   cameraSize: 4.479
   deskPos: {x: -0, y: -0, z: -3.6329997}
   deskOptions:
-    colors: 00000000
+    colors: 0000000001000000
     rareColors: 
     rarestColors: 
     targetMoveCount1: 10

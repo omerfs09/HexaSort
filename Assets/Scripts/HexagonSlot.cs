@@ -49,13 +49,13 @@ public class HexagonSlot : MonoBehaviour, IPoolable
                     GameStats.Instance.CheckGameOver();
                 }
                 CommandController.Instance.RunOnDropQueue();
-            });
+            },null);
             GameStats.Instance.moves++;
         }
 
 
     }
-    public void CheckNeighbors(Colors color1, Action onComplete)
+    public void CheckNeighbors(Colors color1, Action onComplete,HexagonSlot previous)
     {
 
         if (color1 == Colors.Null)
@@ -78,44 +78,38 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         {
             if (available.Count < 2)
             {
-                if (available[0].IsSingleColor() && !IsSingleColor())
-                {
-                    Debug.Log("SingleColorMatch");
-                    isAvailable = true;
-                    available[0].CheckNeighbors(color, onComplete);
-                }
-                else
-                {
-                    Debug.Log("Tekli");
-                    available[0].isAvailable = false;
-                    available[0].PourToSlot(this, color, () => available[0].CheckNeighbors(Colors.Null, () => end()));
-
-                }
+                //Single
+                available[0].isAvailable = false;
+                available[0].CheckNeighbors(color,  onComplete, this);
             }
             else
             {
-                Debug.Log("Ciftli");
+                //Multiple
                 available[0].isAvailable = false;
-                available[0].PourToSlot(this, color, () => CheckNeighbors(GetTopColor(), () => available[0].CheckNeighbors(Colors.Null, () => onComplete?.Invoke())));
+                available[0].CheckNeighbors(color,()=> {   CheckNeighbors(color, onComplete, this);}, this);
+
             }
-
-
         }
         else
         {
-            Debug.Log("No Avaliable");
-            //CheckMatch(null);
-            isAvailable = true;
-            onComplete?.Invoke();
+            //0
+            if (previous != null)
+            {
+                
+                PourToSlot(previous, color, ()=> {isAvailable = true; CheckNeighbors(GetTopColor(), () => end(), null) ; });
+            }
+            else
+            {
+                Debug.Log("Previous is null");
+                end();
+            }
         }
         void end()
         {
-            //CheckMatch(()=> { isAvailable = true;onComplete?.Invoke(); });
-            //addToSlotEnabled = true;
-            CheckMatch(null);
+            if(previous != null)
+            previous.CheckMatch(null);
             isAvailable = true;
             onComplete?.Invoke();
-
         }
 
 
@@ -217,7 +211,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             //CheckNeighbors(GetTopColor(),null);
             Debug.Log(clearString + i.ToString(), this);
             isAvailable = true;
-            CheckNeighbors(GetTopColor(), () => { onComplete?.Invoke(); CommandController.Instance.RunClearQueue(); });
+            CheckNeighbors(GetTopColor(), () => { onComplete?.Invoke(); CommandController.Instance.RunClearQueue(); },null);
             clearedSlots--;
             if (clearedSlots <= 0)
             {

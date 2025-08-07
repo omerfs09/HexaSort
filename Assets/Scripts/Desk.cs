@@ -26,6 +26,14 @@ public class Desk : MonoBehaviour
         }
         return false;
     }
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            ClearDesk();
+            FillDesk();
+        }
+    }
     public void OnAStackRemoved()
     {
         if (IsDeskEmpty())
@@ -65,8 +73,8 @@ public class Desk : MonoBehaviour
         List<Colors> colors = new();
         colors.Add(Colors.Red);
         colors.Add(Colors.Red);
-        
         colors.Add(Colors.Red);
+        colors.Add(Colors.Blue);
         colors.Add(Colors.Blue);
         colors.Add(Colors.Blue);
         
@@ -78,21 +86,20 @@ public class Desk : MonoBehaviour
         colors.Add(Colors.Red);
         colors.Add(Colors.Red);
         colors.Add(Colors.Red);
+        colors.Add(Colors.Red);
+        colors.Add(Colors.Red);
+        colors.Add(Colors.Red);
         
-        colors.Add(Colors.Blue);
-        colors.Add(Colors.Blue);
-        colors.Add(Colors.Blue);
+        
         
 
         stackm.PushList(colors);
         colors.Clear();
         colors.Add(Colors.Blue);
         colors.Add(Colors.Blue);
+        colors.Add(Colors.Blue);
         
-        colors.Add(Colors.Blue);
-        colors.Add(Colors.Blue);
-        colors.Add(Colors.Blue);
-        colors.Add(Colors.Blue);
+        
         
         stackr.PushList(colors);
         colors.Clear();
