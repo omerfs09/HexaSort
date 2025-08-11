@@ -69,7 +69,7 @@ public class GameStats : MonoBehaviour
         {
             GameController.Instance.ChangeControlState(ControlState.InActive);
             UIManager.HideAllPanels();
-            UIManager.ShowPanel(PanelType.GameOverPanel);
+            UIManager.ShowGameOverPanel();
             SFXManager.Instance.HapticHigh();
             Debug.LogWarning("Game Over!!!!");
         }

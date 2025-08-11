@@ -111,7 +111,9 @@ public class GameController : MonoBehaviour
                     }
 
                 }
-                else { controlState = ControlState.RotateCamera; }
+                else if(hit.collider.tag == "Rotate")
+                { controlState = ControlState.RotateCamera; 
+                }
 
             }
             else
@@ -168,6 +170,7 @@ public class GameController : MonoBehaviour
     {
         controlState = state;
     }
+    [SerializeField] private Hammer hammerAnimated;
     public void ClearSkill()
     {
         if (Input.GetMouseButtonDown(0))
@@ -180,11 +183,18 @@ public class GameController : MonoBehaviour
                 HexagonSlot slot = hit.collider.GetComponent<HexagonSlot>();
                 if(slot != null && !slot.IsEmpty())
                 {
-                    slot.ClearSlotSkill();
+                    
                     controlState = ControlState.DragAndDrop;
                     UIManager.HideClearSkillPanel();
                     LevelManager.Instance.ClearSkillCount--;
                     UIManager.UpdateSkills();
+                    hammerAnimated.gameObject.SetActive(true);
+                    hammerAnimated.transform.parent.rotation = Quaternion.Euler( new Vector3(0, mainCamera.transform.rotation.eulerAngles.y, 0));
+                    Vector3 animationPos = mainCamera.ScreenToWorldPoint((Vector2)mainCamera.WorldToScreenPoint(slot.transform.position))  + ray.direction*2;
+                    hammerAnimated.transform.parent.position = animationPos;
+                    hammerAnimated.action = () => slot.ClearSlotSkill();
+                    hammerAnimated.GetComponent<Animator>().SetTrigger("Hit");
+
                 }
             }
         }

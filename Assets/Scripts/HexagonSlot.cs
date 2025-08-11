@@ -23,7 +23,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
     {
         
     }
-
+    
     public Stack<Hexagon> GetStack()
     {
         return stack;
@@ -136,13 +136,11 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             Hexagon hexagon = stack.Pop();
             other.PushObject(hexagon, false);
             stackHeight -= GameConstants.STACK_SPACE;
-            
-            hexagon.transform.DOJump(other.transform.position + (other.stackHeight - STACK_SPACE) * Vector3.up, 0.1f, 1, 0.15f).SetDelay(i * totalTime / colorSeries);
+            hexagon.transform.DOJump(other.transform.position + (other.stackHeight - STACK_SPACE) * Vector3.up, 0.15f, 1, 0.15f).SetDelay(i * totalTime / colorSeries);
             Vector3 rotateDirection;
-            rotateDirection = other.transform.position - hexagon.transform.position;
+            rotateDirection = other.transform.position -transform.position;
             rotateDirection =  Vector3.Cross(rotateDirection.normalized,Vector3.up).normalized;
-            Quaternion quaternion = hexagon.transform.rotation * Quaternion.AngleAxis(180f, rotateDirection);
-            hexagon.transform.DORotate(quaternion.eulerAngles, 0.15f).SetDelay(i * totalTime / colorSeries);
+            hexagon.Rotate180(rotateDirection, .15f, i * totalTime / colorSeries);
             i++;
         }
         SFXManager.Instance.HapticLow();
@@ -230,7 +228,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
     public void ClearSlotSkill()
     {
         isAvailable = false;
-        float totalTime = 0.5f;
+        float totalTime = 0.05f * stack.Count;
         int colorSeries = GetColorSeries();
         int i = 0;
         string clearString = "";

@@ -19,11 +19,11 @@ MonoBehaviour:
   deskPos: {x: -0, y: -0, z: -2.9064}
   deskOptions:
     colors: 010000000000000003000000
-    rareColors: 02000000
+    rareColors: 
     rarestColors: 
     targetMoveCount1: 10
     targetMoveCount2: 20
   levelName: 2
-  progressAim: 10
+  progressAim: 50
   gridData: {fileID: 0}
   levelGoalMessage: Reach 10 points
