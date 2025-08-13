@@ -67,7 +67,9 @@ public class GameStats : MonoBehaviour
         }
         if (gameOver)
         {
+            
             GameController.Instance.ChangeControlState(ControlState.InActive);
+            
             UIManager.HideAllPanels();
             UIManager.ShowGameOverPanel();
             SFXManager.Instance.HapticHigh();

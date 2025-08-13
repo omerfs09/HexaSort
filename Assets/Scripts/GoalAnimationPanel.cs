@@ -59,10 +59,10 @@ public class GoalAnimationPanel : UIPanelTemplate
         seq.Join(titleBG.transform.DOScale(new Vector3(0.1f, 1, 1), duration1).SetEase(ease1));
         seq.Join(messageBG.transform.DOScale(new Vector3(0.1f,1,1), duration1).SetEase(ease1));
         GameObject target = UIManager.GetPanel(PanelType.ProgressBar).holder.transform.GetChild(0).gameObject;
-        seq.Join(titleBG.transform.DOLocalMove(target.transform.localPosition, duration1).SetEase(ease1));
-        seq.Join(titleBG.transform.DOScale(Vector3.zero, duration1).SetEase(ease1));
-        seq.Join(messageBG.transform.DOLocalMove(target.transform.localPosition, duration1).SetEase(ease1).SetDelay(0.1f));
-        seq.Join(messageBG.transform.DOScale(Vector3.zero, duration1).SetEase(ease1));
+        seq.Join(titleBG.transform.DOLocalMove(target.transform.localPosition, duration1).SetEase(Ease.InOutBack));
+        seq.Join(titleBG.transform.DOScale(Vector3.zero, duration1).SetEase(Ease.InOutBack));
+        seq.Join(messageBG.transform.DOLocalMove(target.transform.localPosition, duration1).SetEase(Ease.InOutBack).SetDelay(0.1f));
+        seq.Join(messageBG.transform.DOScale(Vector3.zero, duration1).SetEase(Ease.InOutBack));
 
         seq.Play();
 

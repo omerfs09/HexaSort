@@ -12,7 +12,13 @@ public class DraggableStack : MonoBehaviour,IPoolable
     {
         
     }
-    
+    public void SetAllHexShadowless()
+    {
+        foreach(Hexagon hex in hexaList)
+        {
+            hex.SetGetShadows(false);
+        }
+    }
     public void PushHexagon(Hexagon hexagon)
     {
         hexagon.MoveTo(transform.position + Vector3.up * stackHeight);

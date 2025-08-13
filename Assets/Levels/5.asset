@@ -21,8 +21,8 @@ MonoBehaviour:
     colors: 010000000200000003000000
     rareColors: 00000000
     rarestColors: 06000000
-    targetMoveCount1: 10
-    targetMoveCount2: 20
+    targetMoveCount1: 4
+    targetMoveCount2: 10
   levelName: 5
   progressAim: 75
   gridData: {fileID: 11400000, guid: b73d31f82eae59d428e6425452fd0f34, type: 2}

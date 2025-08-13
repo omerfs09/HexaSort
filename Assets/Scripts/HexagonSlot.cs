@@ -159,7 +159,9 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             other.PushObject(hexagon, false);
             stackHeight -= GameConstants.STACK_SPACE;
             float delay = (i+1) * totalTime / colorSeries;
-            hexagon.transform.DOJump(other.transform.position + (other.stackHeight - STACK_SPACE) * Vector3.up, 0.15f, 0, 0.15f).SetDelay(delay);
+            hexagon.transform.DOJump(other.transform.position + (other.stackHeight - STACK_SPACE) * Vector3.up, 0.15f, 0, 0.15f).SetDelay(delay).OnComplete(() => {
+                    SFXManager.Instance.PlayClipOneShot(AudioEnums.Block2,0.5f);
+            });
             Vector3 rotateDirection;
             rotateDirection = other.transform.position -transform.position;
             rotateDirection =  Vector3.Cross(rotateDirection.normalized,Vector3.up).normalized;
@@ -222,7 +224,9 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         {
             clearString += stack.Peek().color.ToString() + ",";
             Vector3 pos = stack.Peek().transform.position ;
-            stack.Pop().transform.DOScale(Vector3.zero, 0.15f).SetDelay(i * totalTime / colorSeries).SetEase(Ease.InOutBack).OnComplete(() => VFXManager.Instance.GetParticle(VFXEnums.ClearSlotVFX2, pos));
+            stack.Pop().transform.DOScale(Vector3.zero, 0.15f).SetDelay(i * totalTime / colorSeries).SetEase(Ease.InOutBack).OnComplete(() => { VFXManager.Instance.GetParticle(VFXEnums.ClearSlotVFX2, pos);
+            SFXManager.Instance.PlayClipOneShot(AudioEnums.Block);
+            });
             stackHeight += -GameConstants.STACK_SPACE;
             i++;
             
@@ -261,7 +265,9 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             GameStats.Instance.AddColor(stack.Peek().color, -1);
             clearString += stack.Peek().color.ToString() + ",";
             Hexagon hexagon = stack.Pop();
-            hexagon.transform.DOScale(Vector3.zero, 0.15f).SetDelay(i * totalTime / colorSeries).SetEase(Ease.InOutBack);
+            hexagon.transform.DOScale(Vector3.zero, 0.15f).SetDelay(i * totalTime / colorSeries).SetEase(Ease.InOutBack).OnComplete(() => {
+                SFXManager.Instance.PlayClipOneShot(AudioEnums.Block);
+            });
             hexagon.transform.DOMove(transform.position, 0.15f).SetDelay(i * totalTime / colorSeries);
             stackHeight += -GameConstants.STACK_SPACE;
             i++;

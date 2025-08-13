@@ -67,12 +67,19 @@ public class GameController : MonoBehaviour
         
     }
     float angleZ = -90;
+    float defaultCameraSize = 4;
+    public void SetDefaultCameraSize(float size)
+    {
+        defaultCameraSize = size;
+    }
     private void Rotate(float lerpSpeed)
     {
         float r = new Vector3(0, -cameraStartPoint.z, 0).magnitude;
         mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position,new Vector3(Mathf.Cos(angleZ * Mathf.Deg2Rad) * r, cameraStartPoint.y, Mathf.Sin(angleZ * Mathf.Deg2Rad) * r),Time.deltaTime*60*lerpSpeed);
         mainCamera.transform.rotation = Quaternion.Lerp( mainCamera.transform.rotation ,Quaternion.Euler(new Vector3(60, 270 - angleZ, 0)),Time.deltaTime*60*lerpSpeed);
+        mainCamera.orthographicSize = Mathf.Lerp(mainCamera.orthographicSize , ((((int)angleZ + 90) / 60) % 3 == 0 ? 1f : 1.41f) * defaultCameraSize, Time.deltaTime * 60 * lerpSpeed *0.2f); ;
     }
+    
     public void RotateCamera()
     {
         if (Input.GetMouseButton(0))
@@ -80,12 +87,14 @@ public class GameController : MonoBehaviour
             controlState = ControlState.RotateCamera;
             Vector3 dif = Input.mousePosition - previousMousePos;
             angleZ -= dif.x*Time.deltaTime*60*0.3f;
+            
         }
         else
         {
             controlState = ControlState.DragAndDrop;
             angleZ = Mathf.Round((angleZ + 90) / 60)*60 -90;
             float r = new Vector3(0, -cameraStartPoint.z, 0).magnitude;
+            
         }
     }
     public void DragAndDrop()
@@ -169,6 +178,10 @@ public class GameController : MonoBehaviour
     }
     public void ChangeControlState(ControlState state)
     {
+        if(state == ControlState.InActive)
+        {
+            currentDraggable = null;
+        }
         controlState = state;
     }
     [SerializeField] private Hammer hammerAnimated;
@@ -229,6 +242,8 @@ public class GameController : MonoBehaviour
                     }
                     draggable1.PushList(hexagons.Reverse<Hexagon>().ToList());
                     sourceSlot = slot;
+                    draggableStack.SetAllHexShadowless();
+                    SFXManager.Instance.PlayClipOneShot(AudioEnums.Lift);
                 }
 
             }
@@ -260,6 +275,7 @@ public class GameController : MonoBehaviour
                 draggable1 = null;
                 LevelManager.Instance.MoveSkillCount--;
                 UIManager.UpdateSkills();
+                SFXManager.Instance.PlayClipOneShot(AudioEnums.AddToSlot);
 
             }
             controlState = ControlState.DragAndDrop;

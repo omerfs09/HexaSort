@@ -12,8 +12,10 @@ public class Desk : MonoBehaviour
     [SerializeField] private GameObject deskUIPos;
     public LayerMask planeLayer;
     public bool isRefreshing;
+    private Camera mainCamera;
     public void Awake()
     {
+        mainCamera = Camera.main; 
         Instance = this;
         left.SetDesk(this);
         right.SetDesk(this);
@@ -34,7 +36,13 @@ public class Desk : MonoBehaviour
             ClearDesk();
             FillDesk();
         }
+
     }
+    public void FixedUpdate()
+    {
+        SetDeskPosition();
+    }
+
     public void OnAStackRemoved()
     {
         if (IsDeskEmpty())
@@ -65,7 +73,9 @@ public class Desk : MonoBehaviour
     }
     public void SetDeskPosition()
     {
-        gameObject.transform.position = deskUIPos.transform.position+ Camera.main.transform.forward*1.1f;
+        //gameObject.transform.position = deskUIPos.transform.position+ mainCamera.transform.forward*1.1f;
+        Vector3 screenPos = RectTransformUtility.WorldToScreenPoint(mainCamera, deskUIPos.transform.position);
+        gameObject.transform.position = mainCamera.ScreenToWorldPoint(screenPos) + mainCamera.transform.forward * 2;
     }
     public void FillDesk()
     {

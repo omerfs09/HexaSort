@@ -145,6 +145,7 @@ public class LevelManager : MonoBehaviour
     }
     public void LoadCustomLevel(LevelData levelData)
     {
+        GameController.Instance.SetDefaultCameraSize(levelData.cameraSize);
         ((SkillPanel)UIManager.GetPanel(PanelType.BoostersPanel)).SetRefreshDeskButton(true);
         Desk.Instance.isRefreshing = false;
         GameController.Instance.ChangeControlState(ControlState.DragAndDrop);
@@ -217,16 +218,16 @@ public class LevelManager : MonoBehaviour
 
             }
         }
-        desk.SetDeskPosition();
 
-        DraggableStack draggable = (DraggableStack)PoolManager.Instance.GetItem(ItemType.Draggable);
-        List<Colors> startColors = new();
-        startColors.Add(Colors.Red);
-        startColors.Add(Colors.Red);
-        startColors.Add(Colors.Blue);
-        draggable.PushList(startColors);
-        draggable.Drag(desk.middle.transform.position);
-        desk.middle.FillSlot(draggable);
+        //DraggableStack draggable = (DraggableStack)PoolManager.Instance.GetItem(ItemType.Draggable);
+        //List<Colors> startColors = new();
+        //startColors.Add(Colors.Red);
+        //startColors.Add(Colors.Red);
+        //startColors.Add(Colors.Blue);
+        //draggable.PushList(startColors);
+        //draggable.Drag(desk.middle.transform.position);
+        //desk.middle.FillSlot(draggable);
+        desk.FillDesk(Diffuculty.Medium, GameStats.Instance.GetSlotsStatus());
         this.slots = slotList;
 
         UIManager.ShowMainPanel();
@@ -322,7 +323,6 @@ public class LevelManager : MonoBehaviour
                 
             }
         }
-        desk.SetDeskPosition();
 
         DraggableStack draggable = (DraggableStack)PoolManager.Instance.GetItem(ItemType.Draggable);
         List<Colors> startColors = new();
