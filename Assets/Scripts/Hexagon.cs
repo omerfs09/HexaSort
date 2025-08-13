@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Sirenix.OdinInspector;
 public class Hexagon : MonoBehaviour,IPoolable
 {
     public MeshRenderer mesh;
+
+    [OnValueChanged("SetColor")]
     public Colors color;
     void Awake()
     {
@@ -36,10 +39,12 @@ public class Hexagon : MonoBehaviour,IPoolable
         }
         else mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
-    public void SetColor(Colors colors)
+    public void SetColor(Colors colors=Colors.Null)
     {
-        mesh.material = Resources.Load<Material>("Materials/" + colors.ToString());
+
         color = colors;
+        mesh.material = Resources.Load<Material>("Materials/" + color.ToString());
+
     }
     public void MoveTo(Vector3 point,bool animate = false)
     {
