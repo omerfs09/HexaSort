@@ -15,6 +15,8 @@ public class Hammer : MonoBehaviour
             yield return new WaitForSeconds(0.2f);
             action?.Invoke();
             gameObject.SetActive(false);
+            (UIManager.GetPanel(PanelType.BoostersPanel) as SkillPanel).SetClearSkillButton(true);
+
         }
     }
     

@@ -16,12 +16,14 @@ public class SettingsPanel : UIPanelTemplate
         settingsButton.onClick.AddListener(() => OpenClose());
         soundButton.onClick.AddListener(() => SoundButtonOnClick());
         hapticButton.onClick.AddListener(() => HapticButtonOnClick());
+        UpdateImgs();
     }
+    
     public override void HidePanel()
     {
         holder.SetActive(false);
     }
-
+    
     public override void ShowPanel()
     {
         holder.SetActive(true);
@@ -30,10 +32,14 @@ public class SettingsPanel : UIPanelTemplate
     {
         if (holder.activeInHierarchy)
         {
+            GameController.Instance.ChangeControlState(ControlState.DragAndDrop);
+
             UIManager.HideSettingsPanel();
         }
         else
         {
+            GameController.Instance.ChangeControlState(ControlState.InActive);
+
             UIManager.ShowSettingsPanel();
         }
     }
@@ -69,10 +75,35 @@ public class SettingsPanel : UIPanelTemplate
     {
         
     }
+    public void UpdateImgs()
+    {
+        if(Settings.GetSetting(SettingsEnum.SOUND) > 0)
+        {
+            soundButton.image.sprite = soundOnIMG;
+        }
+        else
+        {
+            soundButton.image.sprite = soundOffIMG;
+
+        }
+        if (Settings.GetSetting(SettingsEnum.VIBRATION) > 0)
+        {
+            hapticButton.image.sprite = hapticOnIMG;
+        }
+        else
+        {
+            hapticButton.image.sprite = hapticOffIMG;
+
+        }
+    }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            GameController.Instance.ChangeControlState(ControlState.DragAndDrop);
+            UIManager.HideSettingsPanel();
+        }
     }
 }

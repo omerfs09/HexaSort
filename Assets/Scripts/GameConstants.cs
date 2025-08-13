@@ -8,8 +8,8 @@ public class GameConstants : MonoBehaviour
     public const float STACK_SPACE = 0.15f;
     public const  float HEXAGON_R = 0.42f;
     public const  int MOVESKILL_PRICE = 100;
-    public const  int CLEARSKILL_PRICE = 100;
-    public const  int REFRESHDESK_PRICE = 100;
+    public const  int CLEARSKILL_PRICE = 75;
+    public const  int REFRESHDESK_PRICE = 25;
     public void Awake()
     {
         

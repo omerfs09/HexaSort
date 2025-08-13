@@ -11,6 +11,7 @@ public class Desk : MonoBehaviour
     public DeskOptions deskOptions;
     [SerializeField] private GameObject deskUIPos;
     public LayerMask planeLayer;
+    public bool isRefreshing;
     public void Awake()
     {
         Instance = this;
@@ -45,6 +46,8 @@ public class Desk : MonoBehaviour
     }
     public void RefreshDesk()
     {
+        isRefreshing = true;
+        ((SkillPanel)UIManager.GetPanel(PanelType.BoostersPanel)).SetRefreshDeskButton(false);
         ClearDeskAnimated(()=>FillDesk(Diffuculty.Medium,GameStats.Instance.GetSlotsStatus()));
     }
     public void ClearDeskAnimated(Action onComplete)
@@ -394,7 +397,14 @@ public class Desk : MonoBehaviour
         left.FillSlotAnimated(leftD,0.15f);
         middle.FillSlotAnimated(middleD,0.25f);
         right.FillSlotAnimated(rightD,0.35f);
-            
+        StartCoroutine(cor());
+        IEnumerator cor()
+        {
+            yield return new WaitForSeconds(0.5f);
+            ((SkillPanel)UIManager.GetPanel(PanelType.BoostersPanel)).SetRefreshDeskButton(true);
+
+            isRefreshing = false;
+        }    
         
     }
     public void AddColorsToList(List<Colors> list, Colors color,int count)

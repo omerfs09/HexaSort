@@ -24,6 +24,6 @@ MonoBehaviour:
     targetMoveCount1: 10
     targetMoveCount2: 20
   levelName: 4
-  progressAim: 75
+  progressAim: 50
   gridData: {fileID: 0}
   levelGoalMessage: Reach 10 points

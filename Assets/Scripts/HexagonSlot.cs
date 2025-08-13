@@ -21,7 +21,14 @@ public class HexagonSlot : MonoBehaviour, IPoolable
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Time.timeScale = 0.15f;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            Time.timeScale = 1f;
+        }
     }
     
     public Stack<Hexagon> GetStack()
@@ -128,19 +135,35 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         isAvailable = false;
         other.isAvailable = false;
         int i = 0;
-        float totalTime = 0.5f;
         int colorSeries = GetColorSeries();
+        float totalTime;
+        if (colorSeries < 3)
+        {
+            totalTime = 0.25f;
+        }
+        else if(colorSeries < 7)
+        {
+            totalTime = 0.4f;
+
+        }
+        else
+        {
+            totalTime = 0.5f;
+
+        }
+
         SFXManager.Instance.PlayClipOneShot(AudioEnums.Pour);
         while (stack.Count > 0 && color == stack.Peek().color)
         {
             Hexagon hexagon = stack.Pop();
             other.PushObject(hexagon, false);
             stackHeight -= GameConstants.STACK_SPACE;
-            hexagon.transform.DOJump(other.transform.position + (other.stackHeight - STACK_SPACE) * Vector3.up, 0.15f, 1, 0.15f).SetDelay(i * totalTime / colorSeries);
+            float delay = (i+1) * totalTime / colorSeries;
+            hexagon.transform.DOJump(other.transform.position + (other.stackHeight - STACK_SPACE) * Vector3.up, 0.15f, 0, 0.15f).SetDelay(delay);
             Vector3 rotateDirection;
             rotateDirection = other.transform.position -transform.position;
             rotateDirection =  Vector3.Cross(rotateDirection.normalized,Vector3.up).normalized;
-            hexagon.Rotate180(rotateDirection, .15f, i * totalTime / colorSeries);
+            hexagon.Rotate180(rotateDirection, 0.15f,delay-0.1f);
             i++;
         }
         SFXManager.Instance.HapticLow();
@@ -198,7 +221,8 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         while (stack.Count > 0 && stack.Peek().color == color)
         {
             clearString += stack.Peek().color.ToString() + ",";
-            stack.Pop().transform.DOScale(Vector3.zero, 0.15f).SetDelay(i * totalTime / colorSeries).SetEase(Ease.InOutBack);
+            Vector3 pos = stack.Peek().transform.position ;
+            stack.Pop().transform.DOScale(Vector3.zero, 0.15f).SetDelay(i * totalTime / colorSeries).SetEase(Ease.InOutBack).OnComplete(() => VFXManager.Instance.GetParticle(VFXEnums.ClearSlotVFX2, pos));
             stackHeight += -GameConstants.STACK_SPACE;
             i++;
             
@@ -209,7 +233,6 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         IEnumerator wait()
         {
             yield return new WaitForSeconds(totalTime);
-            ParticleSystem p = VFXManager.Instance.GetParticle(VFXEnums.ClearSlotVFX2, transform.position);
             SFXManager.Instance.PlayClipOneShot(AudioEnums.ClearSlot);
             yield return new WaitForSeconds(0.5f);
             //CheckNeighbors(GetTopColor(),null);
@@ -227,6 +250,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
     }
     public void ClearSlotSkill()
     {
+        GameController.Instance.ChangeControlState(ControlState.InActive);
         isAvailable = false;
         float totalTime = 0.05f * stack.Count;
         int colorSeries = GetColorSeries();
@@ -246,13 +270,15 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         StartCoroutine(wait());
         IEnumerator wait()
         {
-            yield return new WaitForSeconds(totalTime + 0.5f);
+            ParticleSystem particleSystem = VFXManager.Instance.GetParticle(VFXEnums.ClearSlotVFX,gameObject.transform.position);
+            yield return new WaitForSeconds(totalTime + 0.1f);
             SFXManager.Instance.PlayClipOneShot(AudioEnums.ClearSkill);
             //CheckNeighbors(GetTopColor(),null);
             Debug.Log(clearString + i.ToString(), this);
             isAvailable = true;
-            ParticleSystem particleSystem = VFXManager.Instance.GetParticle(VFXEnums.ClearSlotVFX,gameObject.transform.position);
             particleSystem.Play();
+            GameController.Instance.ChangeControlState(ControlState.DragAndDrop);
+
         }
     }
     public void OnAllAnimationsEnded()

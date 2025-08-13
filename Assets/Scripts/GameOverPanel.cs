@@ -9,7 +9,6 @@ public class GameOverPanel : UIPanelTemplate
     private void Start()
     {
         rePlayButton.onClick.AddListener(() => RePlayButtonOnClick());
-        mainMenuButton.onClick.AddListener(() => MainMenuButtonOnClick()); 
     }
     private void RePlayButtonOnClick()
     {

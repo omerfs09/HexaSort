@@ -18,17 +18,22 @@ public class Hexagon : MonoBehaviour,IPoolable
     }
     private bool rotate = false;
     private Vector3 axis;
-    public void Rotate180(Vector3 rotateAxis, float duration,float delay)
+    public void Rotate180(Vector3 rotateAxis, float duration, float delay, bool isLocalAxis = false)
     {
+        
         Quaternion rotation = Quaternion.AngleAxis(180, rotateAxis);
-        transform.DORotate((rotation*transform.rotation).eulerAngles, duration, RotateMode.Fast).SetDelay(delay).SetEase(Ease.OutQuad);
-        //transform.DORotateQuaternion(transform.rotation * rotation, duration).SetDelay(delay);
+        transform
+            .DORotateQuaternion(rotation * transform.rotation, duration)
+            .SetDelay(delay)
+            .SetEase(Ease.OutQuad);
     }
-
     public void SetGetShadows(bool val)
     {
         if (!val)
+        {
             mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            mesh.staticShadowCaster = true;
+        }
         else mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
     }
     public void SetColor(Colors colors)

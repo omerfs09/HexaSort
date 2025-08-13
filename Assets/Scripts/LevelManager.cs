@@ -145,6 +145,8 @@ public class LevelManager : MonoBehaviour
     }
     public void LoadCustomLevel(LevelData levelData)
     {
+        ((SkillPanel)UIManager.GetPanel(PanelType.BoostersPanel)).SetRefreshDeskButton(true);
+        Desk.Instance.isRefreshing = false;
         GameController.Instance.ChangeControlState(ControlState.DragAndDrop);
         currentLevel = levelData;
         levelNameTitle.text = "Level " + levelData.levelName;
@@ -253,6 +255,8 @@ public class LevelManager : MonoBehaviour
             LoadCustomLevel(levelData);
             return;
         }
+        ((SkillPanel)UIManager.GetPanel(PanelType.BoostersPanel)).SetRefreshDeskButton(true);
+        Desk.Instance.isRefreshing = false;
         GameController.Instance.ChangeControlState(ControlState.DragAndDrop);
         currentLevel = levelData;
         levelNameTitle.text = "Level " + levelData.levelName;

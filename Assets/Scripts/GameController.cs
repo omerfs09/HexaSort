@@ -18,6 +18,7 @@ public class GameController : MonoBehaviour
     private Vector3 cameraStartPoint;
     void Awake()
     {
+        Input.multiTouchEnabled = false;
         Instance = this;
         mainCamera = Camera.main;
         cameraR = mainCamera.transform.position.magnitude;
@@ -111,7 +112,7 @@ public class GameController : MonoBehaviour
                     }
 
                 }
-                else if(hit.collider.tag == "Rotate")
+                else
                 { controlState = ControlState.RotateCamera; 
                 }
 
@@ -188,9 +189,11 @@ public class GameController : MonoBehaviour
                     UIManager.HideClearSkillPanel();
                     LevelManager.Instance.ClearSkillCount--;
                     UIManager.UpdateSkills();
+                    (UIManager.GetPanel(PanelType.BoostersPanel) as SkillPanel).SetClearSkillButton(false);
                     hammerAnimated.gameObject.SetActive(true);
                     hammerAnimated.transform.parent.rotation = Quaternion.Euler( new Vector3(0, mainCamera.transform.rotation.eulerAngles.y, 0));
                     Vector3 animationPos = mainCamera.ScreenToWorldPoint((Vector2)mainCamera.WorldToScreenPoint(slot.transform.position))  + ray.direction*2;
+                    ChangeControlState(ControlState.InActive);
                     hammerAnimated.transform.parent.position = animationPos;
                     hammerAnimated.action = () => slot.ClearSlotSkill();
                     hammerAnimated.GetComponent<Animator>().SetTrigger("Hit");
@@ -212,7 +215,7 @@ public class GameController : MonoBehaviour
             {
                 HexagonSlot slot = hit.collider.GetComponent<HexagonSlot>();
 
-                if (slot != null && draggable1 == null )
+                if (slot != null && draggable1 == null  && !slot.IsEmpty())
                 {
 
                     DraggableStack draggableStack = PoolManager.Instance.GetItem(ItemType.Draggable) as DraggableStack;

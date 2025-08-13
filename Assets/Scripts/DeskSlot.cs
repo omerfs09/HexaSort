@@ -20,7 +20,7 @@ public class DeskSlot : MonoBehaviour
             return;
         }
         stack.transform.DOKill();
-        stack.transform.DOLocalMoveX(-5,0.5f).OnComplete(() => end());
+        stack.transform.DOLocalMoveX(-5,0.2f).OnComplete(() => end());
         void end()
         {
             PoolManager.Instance.ReturnItem(ItemType.Draggable, stack);

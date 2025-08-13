@@ -79,10 +79,12 @@ public class SkillPanel : UIPanelTemplate
     }
     public void OnRefreshButtonClicked()
     {
-        if (LevelManager.Instance.RefreshDeskCount > 0)
+        if (LevelManager.Instance.RefreshDeskCount > 0 )
         {
-
-            UseSkill();
+            if (!Desk.Instance.isRefreshing)
+            {
+                UseSkill();
+            }
         }
         else
         {
@@ -110,7 +112,14 @@ public class SkillPanel : UIPanelTemplate
         }
         
     }
-
+    public void SetRefreshDeskButton(bool interactable)
+    {
+        refreshDeskButton.interactable = interactable;
+    }
+    public void SetClearSkillButton(bool interactable)
+    {
+        clearSkillButton.interactable = interactable;
+    }
     public override void ShowPanel()
     {
         holder.SetActive(true);
@@ -133,11 +142,33 @@ public class SkillPanel : UIPanelTemplate
         clearSkillPriceTMP.text = GameConstants.CLEARSKILL_PRICE.ToString();
         moveSkillPriceTMP.text = GameConstants.MOVESKILL_PRICE.ToString();
         refreshDeskPriceTMP.text = GameConstants.REFRESHDESK_PRICE.ToString();
-        if (clear > 0) clearSkillPriceTMP.gameObject.SetActive(false);
-        else clearSkillPriceTMP.gameObject.SetActive(true);
-        if (move > 0) moveSkillPriceTMP.gameObject.SetActive(false);
-        else moveSkillPriceTMP.gameObject.SetActive(true);
-        if (refresh > 0) refreshDeskPriceTMP.gameObject.SetActive(false);
-        else refreshDeskPriceTMP.gameObject.SetActive(true);
+        if (clear > 0)
+        {
+            clearSkillPriceTMP.transform.parent.gameObject.SetActive(false);
+        }
+        else
+        {
+            clearSkillPriceTMP.transform.parent.gameObject.SetActive(true);
+            clearSkillTMP.text = "+";
+        }
+        if (move > 0)
+        {
+            moveSkillPriceTMP.transform.parent.gameObject.SetActive(false);
+        }
+        else
+        {
+            moveSkillPriceTMP.transform.parent.gameObject.SetActive(true);
+            moveSkillTMP.text = "+";
+        }
+        if (refresh > 0)
+        {
+            refreshDeskPriceTMP.transform.parent.gameObject.SetActive(false);
+        }
+        else 
+        { 
+            refreshDeskPriceTMP.transform.parent.gameObject.SetActive(true);
+            refreshDeskTMP.text = "+";
+        }
+
     }
 }
