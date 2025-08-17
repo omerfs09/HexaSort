@@ -161,6 +161,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             float delay = (i+1) * totalTime / colorSeries;
             hexagon.transform.DOJump(other.transform.position + (other.stackHeight - STACK_SPACE) * Vector3.up, 0.15f, 0, 0.15f).SetDelay(delay).OnComplete(() => {
                     SFXManager.Instance.PlayClipOneShot(AudioEnums.Block2,0.5f);
+                SFXManager.Instance.SetHaptic(HapticTypes.LightImpact);
             });
             Vector3 rotateDirection;
             rotateDirection = other.transform.position -transform.position;
@@ -168,7 +169,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             hexagon.Rotate180(rotateDirection, 0.15f,delay-0.1f);
             i++;
         }
-        SFXManager.Instance.HapticLow();
+        
         float wait = totalTime + 0.1f;
         StartCoroutine(cor());
         IEnumerator cor()
@@ -220,12 +221,15 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         int colorSeries = GetColorSeries();
         int i = 0;
         string clearString = "";
+        
         while (stack.Count > 0 && stack.Peek().color == color)
         {
-            clearString += stack.Peek().color.ToString() + ",";
-            Vector3 pos = stack.Peek().transform.position ;
-            stack.Pop().transform.DOScale(Vector3.zero, 0.15f).SetDelay(i * totalTime / colorSeries).SetEase(Ease.InOutBack).OnComplete(() => { VFXManager.Instance.GetParticle(VFXEnums.ClearSlotVFX2, pos);
+            Hexagon peek = stack.Peek();
+            clearString += peek.color.ToString() + ",";
+            Vector3 pos = peek.transform.position ;
+            stack.Pop().transform.DOScale(Vector3.zero, 0.15f).SetDelay(i * totalTime / colorSeries).SetEase(Ease.InOutBack).OnComplete(() => { VFXManager.Instance.GetParticle(VFXEnums.HexagonDestroy, pos,true,GameConstants.ColorEnumToColor(peek.color));
             SFXManager.Instance.PlayClipOneShot(AudioEnums.Block);
+                SFXManager.Instance.SetHaptic(HapticTypes.LightImpact);
             });
             stackHeight += -GameConstants.STACK_SPACE;
             i++;
@@ -249,7 +253,6 @@ public class HexagonSlot : MonoBehaviour, IPoolable
                 OnAllAnimationsEnded();
                 clearedSlots = 0;
             }
-            SFXManager.Instance.HapticMedium();
         }
     }
     public void ClearSlotSkill()
@@ -260,6 +263,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         int colorSeries = GetColorSeries();
         int i = 0;
         string clearString = "";
+        VFXManager.Instance.GetParticle(VFXEnums.Slot, stack.Peek().transform.position);
         while (stack.Count > 0)
         {
             GameStats.Instance.AddColor(stack.Peek().color, -1);
@@ -267,6 +271,8 @@ public class HexagonSlot : MonoBehaviour, IPoolable
             Hexagon hexagon = stack.Pop();
             hexagon.transform.DOScale(Vector3.zero, 0.15f).SetDelay(i * totalTime / colorSeries).SetEase(Ease.InOutBack).OnComplete(() => {
                 SFXManager.Instance.PlayClipOneShot(AudioEnums.Block);
+                SFXManager.Instance.SetHaptic(HapticTypes.LightImpact);
+
             });
             hexagon.transform.DOMove(transform.position, 0.15f).SetDelay(i * totalTime / colorSeries);
             stackHeight += -GameConstants.STACK_SPACE;
@@ -276,7 +282,7 @@ public class HexagonSlot : MonoBehaviour, IPoolable
         StartCoroutine(wait());
         IEnumerator wait()
         {
-            ParticleSystem particleSystem = VFXManager.Instance.GetParticle(VFXEnums.ClearSlotVFX,gameObject.transform.position);
+            ParticleSystem particleSystem = VFXManager.Instance.GetParticle(VFXEnums.Slot,gameObject.transform.position);
             yield return new WaitForSeconds(totalTime + 0.1f);
             SFXManager.Instance.PlayClipOneShot(AudioEnums.ClearSkill);
             //CheckNeighbors(GetTopColor(),null);

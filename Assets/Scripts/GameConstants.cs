@@ -26,4 +26,32 @@ public class GameConstants : MonoBehaviour
             return Vector3.right * col * r * 1.5f + Vector3.forward * -1.73f * row*r - Vector3.forward * r * 0.866f;
         }
     } 
+    public static Color ColorEnumToColor(Colors color)
+    {
+        switch (color)
+        {
+            case Colors.Red:
+                return Color.red;
+                break;
+            case Colors.Blue:
+                return Color.cyan;
+            case Colors.Green:
+                return Color.green;
+            case Colors.Black:
+                return Color.black;
+                break;
+            case Colors.Cyan:
+                return Color.cyan;
+            case Colors.Pink:
+                return new Color(255,100,100);
+            case Colors.Purple:
+                return Color.magenta;
+                break;
+            case Colors.White:
+                return Color.white;
+            case Colors.Yellow:
+                return Color.yellow;
+        }
+        return Color.white;
+    }
 }

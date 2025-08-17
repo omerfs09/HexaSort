@@ -115,6 +115,7 @@ public class GameController : MonoBehaviour
                     if (currentDraggable == null)
                     {
                         SFXManager.Instance.PlayClipOneShot(AudioEnums.Lift);
+                        SFXManager.Instance.SetHaptic(HapticTypes.MediumImpact);
                         currentDraggable = draggable;
                         initialPos = currentDeskSlot.transform.position;
 
@@ -152,7 +153,7 @@ public class GameController : MonoBehaviour
             }
             else
             {
-                SFXManager.Instance.HapticLow();
+                SFXManager.Instance.SetHaptic(HapticTypes.MediumImpact);
                 SFXManager.Instance.PlayClipOneShot(AudioEnums.AddToSlot);
                 new AddToSlotCommand(currentDraggable, slot, currentDeskSlot).RunCommand();
                 currentDraggable.transform.position = slot.transform.position;
@@ -244,6 +245,7 @@ public class GameController : MonoBehaviour
                     sourceSlot = slot;
                     draggableStack.SetAllHexShadowless();
                     SFXManager.Instance.PlayClipOneShot(AudioEnums.Lift);
+                    SFXManager.Instance.SetHaptic(HapticTypes.MediumImpact);
                 }
 
             }
@@ -276,6 +278,7 @@ public class GameController : MonoBehaviour
                 LevelManager.Instance.MoveSkillCount--;
                 UIManager.UpdateSkills();
                 SFXManager.Instance.PlayClipOneShot(AudioEnums.AddToSlot);
+                SFXManager.Instance.SetHaptic(HapticTypes.MediumImpact);
 
             }
             controlState = ControlState.DragAndDrop;

@@ -92,7 +92,38 @@ public class SFXManager : MonoBehaviour
     {
         Vibration.Vibrate(1000);
     }
+    public void SetHaptic(HapticTypes hapticType)
+    {
+        if (Settings.GetSetting(SettingsEnum.VIBRATION) <= 0) return;
 
+        switch (hapticType)
+        {
+            case HapticTypes.Selection:
+                Taptic.Selection();
+                break;
+            case HapticTypes.Success:
+                Taptic.Success();
+                break;
+            case HapticTypes.Warning:
+                Taptic.Warning();
+                break;
+            case HapticTypes.Failure:
+                Taptic.Failure();
+                break;
+            case HapticTypes.LightImpact:
+                Taptic.Light();
+                break;
+            case HapticTypes.MediumImpact:
+                Taptic.Medium();
+                break;
+            case HapticTypes.HeavyImpact:
+                Taptic.Heavy();
+                break;
+            default:
+                Taptic.Light();
+                break;
+        }
+    }
 }
 public enum AudioEnums
 {

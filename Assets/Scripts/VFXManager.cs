@@ -89,7 +89,7 @@ public class VFXManager : MonoBehaviour
 }
 public enum VFXEnums
 {
-    ClearSlotVFX,
+    Slot,
     ClearSlotVFX2,
-    
+    HexagonDestroy,
 }
