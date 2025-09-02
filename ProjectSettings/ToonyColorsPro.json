@@ -6,7 +6,8 @@
     "CustomOutputPath": "/JMO Assets/Toony Colors Pro/Shaders Generated/",
     "LastImplementationExportImportPath": "C:/Users/PC/Documents/GitHub/HexaSort/Assets",
     "OpenedFoldouts": [
-        "LIGHTING"
+        "LIGHTING",
+        "SURFACE"
     ],
     "UseCustomFont": true,
     "CustomFont": {

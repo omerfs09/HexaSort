@@ -26,4 +26,4 @@ MonoBehaviour:
   levelName: 1
   progressAim: 50
   gridData: {fileID: 0}
-  levelGoalMessage: Reach 100 points
+  levelGoalMessage: Reach 50 points

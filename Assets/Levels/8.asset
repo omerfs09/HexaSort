@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1609fb6d59a658e47aee1994ad0ccb03, type: 3}
-  m_Name: 3
+  m_Name: 8
   m_EditorClassIdentifier: 
   rows: 4
   collums: 4
@@ -18,12 +18,12 @@ MonoBehaviour:
   cameraSize: 4.0632
   deskPos: {x: -0, y: -0, z: -2.9064}
   deskOptions:
-    colors: 000000000100000002000000
-    rareColors: 03000000
-    rarestColors: 
-    targetMoveCount1: 10
-    targetMoveCount2: 20
-  levelName: 3
-  progressAim: 50
-  gridData: {fileID: 0}
-  levelGoalMessage: Reach 50 points
+    colors: 010000000200000003000000
+    rareColors: 00000000
+    rarestColors: 07000000
+    targetMoveCount1: 3
+    targetMoveCount2: 10
+  levelName: 8
+  progressAim: 100
+  gridData: {fileID: 11400000, guid: d173b5770112c664bb7ef2490ceffeaa, type: 2}
+  levelGoalMessage: Reach 100 points
